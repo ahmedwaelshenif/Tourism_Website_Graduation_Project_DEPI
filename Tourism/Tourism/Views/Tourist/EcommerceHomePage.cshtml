@@ -10,8 +10,8 @@
         <div class="hero-overlay"></div>
         <div class="hero-content container text-start">
             <h1>Welcome to the Leading Tourism E-Commerce Website</h1>
-            <form class="d-flex hero-search mt-4" role="search">
-                <input class="form-control rounded-pill me-2 px-4" type="search" placeholder="Search for products..." aria-label="Search">
+            <form class="d-flex hero-search mt-4" asp-controller="Tourist" asp-action="ShowProductsBySearch" method="get">
+                <input class="form-control rounded-pill me-2 px-4" type="search" name="search" autocomplete="off" placeholder="Search for products..." aria-label="Search">
                 <button class="btn btn-warning rounded-pill px-4" type="submit">Search</button>
             </form>
             
