@@ -1,0 +1,25 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+namespace Tourism.Models
+{
+    public class CreditCard
+    {
+        [Key]
+        [StringLength(16)]
+        public string CardNumber { get; set; }
+
+        [Required]
+        [Precision(12, 4)]
+        public decimal Balance { get; set; }
+
+        [Required]
+        public string CardHolder { get; set; }
+
+        [Required]
+        public string ExpiryDate { get; set; } 
+
+        [Required]
+        public string CVV { get; set; }
+    }
+}

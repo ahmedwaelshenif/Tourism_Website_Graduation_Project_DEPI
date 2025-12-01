@@ -1,0 +1,77 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/ColoredCanyonThumbnail.webp"
+        alt="Colored Canyon"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Colored Canyon</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About the Colored Canyon</h2>
+        <p class="description-text">
+          <strong>Location:</strong> Sinai Peninsula
+        </p>
+        <p class="description-text">
+          The Colored Canyon in Sinai is a narrow passage carved by nature,
+          featuring sandstone walls streaked with shades of red, orange, gold,
+          and purple.
+        </p>
+        <p class="description-text">
+          It's a popular destination for hikers and photographers who enjoy
+          natural wonders.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=28.9833,34.6000&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/colored-canyonPic1.jpg"
+            alt="Colored Canyon Gallery 1"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/ColoredCanyonPic2.jpg"
+            alt="Colored Canyon Gallery 2"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/ColoredCanyonPic3.jpg"
+            alt="Colored Canyon Gallery 3"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

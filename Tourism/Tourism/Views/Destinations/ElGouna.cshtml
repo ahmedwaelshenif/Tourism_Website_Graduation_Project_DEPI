@@ -1,0 +1,69 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/El-Gouna-Thumbnail.webp"
+        alt="El Gouna"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">El Gouna</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About El Gouna</h2>
+        <p class="description-text">
+          <strong>Location:</strong> 20 km north of Hurghada on the Red Sea
+        </p>
+        <p class="description-text">
+          Situated 20 km north of Hurghada on the Red Sea, El Gouna is a modern,
+          luxury lagoon town designed for water activities. With calm lagoons,
+          marinas, kite centers, and stunning beaches, it is perfect for kite
+          surfing, paddleboarding, and safe swimming.
+        </p>
+        <p class="description-text">
+          Its architecture and clean waterways make it one of the most unique
+          modern resort towns in Egypt.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=27.3965,33.6805&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="Photos/ElGounaPic1.jpg" alt="El Gouna Gallery 1" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/ElGounaPic2.jpg" alt="El Gouna Gallery 2" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/ElGounaPic3.jpeg" alt="El Gouna Gallery 3" />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,525 @@
+﻿@using Tourism.Models.Relations
+@using System.Security.Claims
+@model Tourism.Models.Hotel
+
+@{
+    ViewData["Title"] = "Hotel Details: " + Model.name;
+    Layout = null;
+    var averageRating = 4.7;
+    var totalReviews = 215;
+
+    var hotelImages = ViewBag.HotelImages as List<Image> ?? new List<Image>();
+
+    if (Model.pic != null && !hotelImages.Any(img => img.imageData.SequenceEqual(Model.pic)))
+    {
+        hotelImages.Insert(0, new Image { id = -1, imageData = Model.pic, serviceType = "Hotel" });
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="~/" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Tourism</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: #ffffff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .burger-btn {
+            background: none;
+            border: none;
+            color: #6b21a8;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+            .burger-btn:hover {
+                color: #4b0f6b;
+            }
+
+        .navbar-custom {
+            font-size: 1.36rem;
+        }
+
+        .navbar-brand {
+            color: #6b21a8 !important;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+            .navbar-brand i {
+                color: #6b21a8 !important;
+            }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: #6b21a8;
+        }
+
+            .navbar-right a:hover {
+                background: rgba(107, 33, 168, 0.1);
+                color: #4b0f6b !important;
+            }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b21a8;
+        }
+
+            .user-info i {
+                font-size: 1.2rem;
+                color: #6b21a8;
+            }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #ef4444 !important;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+            .logout-btn:hover {
+                background: rgba(239, 68, 68, 0.1);
+                color: #dc2626 !important;
+            }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 73px;
+            width: 250px;
+            height: calc(100vh - 73px);
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+            .sidebar.closed {
+                transform: translateX(-100%);
+            }
+
+        .sidebar-item {
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #6b21a8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-weight: 500;
+        }
+
+            .sidebar-item:hover,
+            .sidebar-item.active {
+                background: #f3f4f6;
+                color: #4b0f6b;
+                border-left-color: #6b21a8;
+            }
+
+            .sidebar-item i {
+                font-size: 1.3rem;
+                width: 25px;
+            }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            flex: 1;
+            transition: margin-left 0.3s ease;
+        }
+
+            .main-content.expanded {
+                margin-left: 0;
+            }
+
+        /* Footer */
+        .site-footer {
+            background-color: #000 !important;
+            color: #fff !important;
+            width: 100%;
+            padding: 40px 0;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+        }
+
+            .site-footer.expanded {
+                margin-left: 0;
+            }
+
+            .site-footer a {
+                color: #fff !important;
+                text-decoration: none;
+            }
+
+                .site-footer a:hover {
+                    color: #7c3aed !important;
+                }
+
+        /* Hotel Detail Card Styling */
+        .card-hotel-details {
+            border: none;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(107, 33, 168, 0.1);
+            background-color: white;
+            padding: 40px;
+        }
+
+        .hotel-name {
+            color: #6b21a8;
+            font-weight: 800;
+            margin-bottom: 5px;
+            font-size: 2.5rem;
+        }
+
+        .location-info i {
+            color: #f47b9c;
+        }
+
+        /* Image Gallery Styling */
+        .main-image-container {
+            position: relative;
+            height: 450px;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+        }
+
+            .main-image-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .thumbnail-img {
+            height: 80px;
+            width: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border-color 0.2s;
+            border-radius: 10px;
+            opacity: 0.8;
+        }
+
+            .thumbnail-img:hover, .thumbnail-img.active-thumb {
+                border-color: #6b21a8 !important;
+                opacity: 1;
+            }
+
+        /* Detail Heading */
+        .detail-heading {
+            color: #6b21a8;
+            font-weight: 700;
+            border-left: 4px solid #f47b9c;
+            padding-left: 10px;
+        }
+
+        /* Show Rooms Button */
+        .btn-show-rooms-custom {
+            background: linear-gradient(to right, #f47b9c, #6b21a8);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+
+            .btn-show-rooms-custom:hover {
+                opacity: 0.9;
+                color: white;
+            }
+
+        @@media (max-width: 992px) {
+            .sidebar
+
+        {
+            transform: translateX(-100%);
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .main-content,
+        .site-footer {
+            margin-left: 0;
+        }
+
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar-custom">
+        <div class="navbar-left">
+            <button class="burger-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-compass"></i>
+                Tourism
+            </a>
+        </div>
+
+        <div class="navbar-right">
+            <a href="/tourist/MyRoomBookings" style="text-decoration: none; color: #6b21a8; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.3s ease;">
+                <i class="fas fa-calendar-check"></i>
+                <span>My Booking</span>
+            </a>
+
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>@User.FindFirst(ClaimTypes.Name)?.Value</span>
+            </div>
+
+            <button class="logout-btn" onclick="window.location.href='tourist/logout'">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar closed" id="sidebar">
+        <a href="/" class="sidebar-item"><i class="fas fa-home"></i> <span>HOME</span></a>
+        <a href="/ecommerce" class="sidebar-item"><i class="fas fa-shopping-cart"></i> <span>ECOMMERCE</span></a>
+        <a href="/restaurants" class="sidebar-item"><i class="fas fa-utensils"></i> <span>RESTAURANTS</span></a>
+        <a href="/hotels" class="sidebar-item active"><i class="fas fa-hotel"></i> <span>HOTELS</span></a>
+        <a href="/explore" class="sidebar-item"><i class="fas fa-compass"></i> <span>EXPLORE</span></a>
+        <a href="/mybooking" class="sidebar-item"><i class="fas fa-calendar-check"></i> <span>MY BOOKING</span></a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content expanded" id="mainContent">
+        <div class="container mt-5">
+            <div class="card card-hotel-details">
+                <h1 class="hotel-name">@Model.name</h1>
+                <p class="location-info fs-5" style="color: #6c757d;">
+                    <i class="bi bi-geo-alt-fill me-2"></i>
+                    @Model.address, @Model.Governorate, Egypt
+                </p>
+
+                <div class="row mb-5">
+                    <div class="col-lg-8 col-md-12 mb-4">
+                        <div class="main-image-container position-relative">
+                            @if (hotelImages.Any())
+                            {
+                                <img id="mainImage" class="img-fluid"
+                                     src="data:image/jpeg;base64,@(Convert.ToBase64String(hotelImages.First().imageData))"
+                                     alt="@Model.name main view" />
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center justify-content-center h-100 text-muted">No Images Available</div>
+                            }
+
+                            <button id="prevBtn" class="btn btn-light position-absolute top-50 start-0 translate-middle-y ms-3 border" style="z-index: 10;"><i class="bi bi-chevron-left"></i></button>
+                            <button id="nextBtn" class="btn btn-light position-absolute top-50 end-0 translate-middle-y me-3 border" style="z-index: 10;"><i class="bi bi-chevron-right"></i></button>
+                        </div>
+
+                        @if (hotelImages.Count > 1)
+                        {
+                            <div class="row g-2 mt-2">
+                                @foreach (var image in hotelImages)
+                                {
+                                    <div class="col-3 col-md-2">
+                                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(image.imageData))"
+                                             class="thumbnail-img img-fluid"
+                                             alt="Hotel Thumbnail"
+                                             onclick="updateMainImageFromElement(this)" />
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <div class="card p-3 mt-4 border-0 shadow-sm">
+                            <h5 class="fw-bold text-center mb-3" style="color: #666;">Ready to book?</h5>
+                            <p class="text-center small text-muted mb-3">Prices may vary based on date and room type.</p>
+
+                            <a asp-action="ShowAvailableRooms" asp-controller="Tourist" asp-route-hotelId="@Model.id" class="btn btn-lg btn-show-rooms-custom text-white fw-bold">
+                                <i class="bi bi-calendar-check-fill me-2"></i> Show Rooms
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8 mb-5">
+                        <h3 class="detail-heading mb-4">Hotel Description</h3>
+                        <p class="fs-6 text-dark">
+                            @Model.description
+                            @if (string.IsNullOrWhiteSpace(Model.description))
+                            {
+                                <span>A full description of the hotel's amenities, atmosphere, and features will appear here.</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="my-5" />
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer expanded" id="footer">
+        <div class="container py-4">
+            <div class="row text-white">
+                <div class="col-md-4 mb-3">
+                    <h5><i class="bi bi-compass me-2"></i>Tourism</h5>
+                    <p>Your one-stop destination for all travel essentials and local experiences!</p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/"><i class="bi bi-house me-2"></i>Home</a></li>
+                        <li><a href="/ecommerce"><i class="bi bi-shop me-2"></i>Shop</a></li>
+                        <li><a href="/orders"><i class="bi bi-bag-check me-2"></i>Orders</a></li>
+                        <li><a href="/contact"><i class="bi bi-envelope me-2"></i>Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h5>Follow Us</h5>
+                    <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i> Facebook</a><br>
+                    <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i> Twitter</a><br>
+                    <a href="#" class="text-white"><i class="bi bi-instagram"></i> Instagram</a>
+                </div>
+            </div>
+
+            <hr class="bg-light" />
+
+            <div class="text-center text-white">
+                &copy; @DateTime.Now.Year Tourism. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const footer = document.getElementById('footer');
+
+            sidebar.classList.toggle('closed');
+            mainContent.classList.toggle('expanded');
+            footer.classList.toggle('expanded');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const thumbnails = document.querySelectorAll(".thumbnail-img");
+            const mainImage = document.getElementById("mainImage");
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+
+            window.updateMainImageFromElement = function(element) {
+                const index = Array.from(thumbnails).indexOf(element);
+                updateMainImage(index);
+            };
+
+            if (thumbnails.length === 0) {
+                if (prevBtn) prevBtn.style.display = 'none';
+                if (nextBtn) nextBtn.style.display = 'none';
+                return;
+            }
+
+            let currentIndex = 0;
+            const imageSources = Array.from(thumbnails).map(img => img.src);
+
+            function updateMainImage(index) {
+                currentIndex = index;
+                if (mainImage && imageSources[currentIndex]) {
+                    mainImage.src = imageSources[currentIndex];
+                }
+
+                thumbnails.forEach(t => t.classList.remove("active-thumb"));
+                if (thumbnails[currentIndex]) {
+                    thumbnails[currentIndex].classList.add("active-thumb");
+                }
+            }
+
+            prevBtn.addEventListener("click", () => {
+                const newIndex = (currentIndex - 1 + imageSources.length) % imageSources.length;
+                updateMainImage(newIndex);
+            });
+
+            nextBtn.addEventListener("click", () => {
+                const newIndex = (currentIndex + 1) % imageSources.length;
+                updateMainImage(newIndex);
+            });
+
+            if (thumbnails.length > 0) {
+                updateMainImage(0);
+            }
+
+            if (thumbnails.length <= 1) {
+                if (prevBtn) prevBtn.style.display = 'none';
+                if (nextBtn) nextBtn.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

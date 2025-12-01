@@ -1,0 +1,79 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/Sharm_El_Sheikh_Thumbnail.jpg"
+        alt="Sharm El Sheikh"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Sharm El Sheikh</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About Sharm El Sheikh</h2>
+        <p class="description-text">
+          <strong>Location:</strong> Southern tip of the Sinai Peninsula, South
+          Sinai
+        </p>
+        <p class="description-text">
+          Found at the southern tip of the Sinai Peninsula in South Sinai, Sharm
+          El Sheikh is home to Ras Mohammed National Park, one of the world's
+          top diving locations. It features deep reefs, crystal waters, vibrant
+          marine life, and luxury resorts.
+        </p>
+        <p class="description-text">
+          Naama Bay and Soho Square offer entertainment, making it both an
+          adventure and leisure destination.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=27.9158,34.3300&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/SharmElSheikhPic1.webp"
+            alt="Sharm El Sheikh Gallery 1"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/Sharm-el-SheikhPic2.webp"
+            alt="Sharm El Sheikh Gallery 2"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/sharm-el-sheikhPic3.webp"
+            alt="Sharm El Sheikh Gallery 3"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

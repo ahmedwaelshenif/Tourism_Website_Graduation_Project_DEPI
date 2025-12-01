@@ -1,0 +1,79 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/Karnak_Temple_Thumbnail.jpg"
+        alt="Karnak Temple"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Karnak Temple</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About Karnak Temple</h2>
+        <p class="description-text">
+          <strong>Location:</strong> East Bank, Luxor
+        </p>
+        <p class="description-text">
+          The Karnak Temple Complex is one of the largest religious sites ever
+          constructed. Spanning over 2,000 years of continuous building, it
+          includes temples, shrines, obelisks, and the famous Hypostyle Hall — a
+          forest of 134 colossal columns covered with hieroglyphs.
+        </p>
+        <p class="description-text">
+          Walking through Karnak feels like stepping into a pharaoh's world,
+          filled with sacred architecture and unmatched archaeological
+          significance.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=25.7188,32.6573&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/KarnakTemplePic1.jpg"
+            alt="Karnak Temple Gallery 1"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/KarnakTemplePic2.jpg.webp"
+            alt="Karnak Temple Gallery 2"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/KarnakTemplePic3.jpg"
+            alt="Karnak Temple Gallery 3"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

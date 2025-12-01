@@ -1,0 +1,333 @@
+﻿@using Tourism.ViewModel
+@model List<ProductOrdersViewModel>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<style>
+    :root {
+    --eggplant: #614051;
+    --eggplant-light: #8B5A7D;
+    --eggplant-dark: #3D2938;
+    --accent: #C77D9E;
+    --bg-light: #F8F5F7;
+    }
+
+    body {
+    background-color: var(--bg-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .page-header {
+    background: linear-gradient(135deg, var(--eggplant) 0%, var(--eggplant-light) 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .page-header h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 2rem;
+    }
+
+    .page-header p {
+    margin: 0.5rem 0 0 0;
+    opacity: 0.9;
+    }
+
+    .orders-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(97, 64, 81, 0.1);
+    border: 1px solid #e8e0e5;
+    overflow: hidden;
+    }
+
+    .orders-header {
+    background: linear-gradient(135deg, var(--eggplant-dark) 0%, var(--eggplant) 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+    .orders-header h5 {
+    margin: 0;
+    font-weight: 600;
+    }
+
+    .order-count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    }
+
+    .table-responsive {
+    overflow-x: auto;
+    }
+
+    .orders-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    }
+
+    .orders-table thead {
+    background-color: var(--bg-light);
+    }
+
+    .orders-table thead th {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--eggplant-dark);
+    border-bottom: 2px solid var(--eggplant-light);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    }
+
+    .orders-table tbody tr {
+    border-bottom: 1px solid #f1f1f1;
+    transition: all 0.2s ease;
+    }
+
+    .orders-table tbody tr:hover {
+    background-color: var(--bg-light);
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(97, 64, 81, 0.1);
+    }
+
+    .orders-table tbody td {
+    padding: 1rem 1.25rem;
+    color: #333;
+    font-size: 0.95rem;
+    }
+
+    .product-name {
+    font-weight: 600;
+    color: var(--eggplant-dark);
+    }
+
+    .customer-name {
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    }
+
+    .order-date {
+    color: #666;
+    font-size: 0.9rem;
+    }
+
+    .amount {
+    font-weight: 600;
+    color: var(--eggplant);
+    font-size: 1rem;
+    }
+
+    .address {
+    color: #666;
+    font-size: 0.9rem;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+
+    .status-badge {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    }
+
+    .status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    }
+
+    .status-processing {
+    background-color: #cfe2ff;
+    color: #084298;
+    }
+
+    .status-shipped {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    }
+
+    .status-delivered {
+    background-color: #d4edda;
+    color: #155724;
+    }
+
+    .status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+    }
+
+    .no-orders {
+    text-align: center;
+    padding: 3rem;
+    color: var(--eggplant-light);
+    }
+
+    .no-orders i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    display: block;
+    opacity: 0.5;
+    }
+
+    .filter-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(97, 64, 81, 0.1);
+    border: 1px solid #e8e0e5;
+    }
+
+    .filter-section select {
+    border: 2px solid #e8e0e5;
+    border-radius: 8px;
+    padding: 0.6rem;
+    color: var(--eggplant-dark);
+    font-weight: 500;
+    }
+
+    .filter-section select:focus {
+    border-color: var(--eggplant-light);
+    outline: none;
+    }
+
+    @@media (max-width: 768px) {
+    .orders-table
+
+    {
+    font-size: 0.85rem;
+    }
+
+    .orders-table thead th,
+    .orders-table tbody td {
+    padding: 0.75rem;
+    }
+
+    .address {
+    max-width: 120px;
+    }
+
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+
+<div class="container mt-4 mb-5">
+    <div class="page-header">
+        <h1>
+            <i class="bi bi-cart-check"></i> Product Orders
+        </h1>
+        <p>View and manage all customer orders</p>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="orders-card">
+            <div class="no-orders">
+                <i class="bi bi-inbox"></i>
+                <h4>No Orders Yet</h4>
+                <p>Orders will appear here once customers make purchases</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Orders Table -->
+        <div class="orders-card">
+            <div class="orders-header">
+                <h5>
+                    <i class="bi bi-list-ul"></i> All Orders
+                </h5>
+                <span class="order-count">
+                    <i class="bi bi-box"></i> @Model.Count Orders
+                </span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th><i class="bi bi-box-seam"></i> Product</th>
+                            <th><i class="bi bi-person"></i> Customer</th>
+                            <th><i class="bi bi-calendar-event"></i> Order Date</th>
+                            <th><i></i> Amount</th>
+                            <th><i class="bi bi-geo-alt"></i> Address</th>
+                            <th><i class="bi bi-info-circle"></i> Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            var statusText = order.status;
+                            string statusClass;
+                            if (statusText == "Processing") statusClass = "status-processing";
+                            else if (statusText == "Delivered") statusClass = "status-delivered";
+                            else statusClass = "status-cancelled";
+
+                            <tr>
+                                <td class="product-name">@order.productName</td>
+                                <td>
+                                    <div class="customer-name">
+                                        <i class="bi bi-person-circle" style="color: var(--eggplant-light);"></i>
+                                        @order.TouristName
+                                    </div>
+                                </td>
+                                <td class="order-date">
+
+                                    @order.orderDate
+
+                                </td>
+                                <td class="amount">@order.amount</td>
+                                <td class="address" title="@order.address">
+                                    <i class="bi bi-geo-alt-fill" style="color: var(--accent);"></i>
+                                    @order.address
+                                </td>
+                                <td>
+                                    <span class="status-badge @statusClass">
+                                        @if (order.status=="Delivered")
+                                        {
+                                            <i class="bi bi-check-circle"></i>
+                                        }
+                                        else if(order.status=="Processing")
+                                        {
+                                            <i class="bi bi-clock-history"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-x-circle"></i>
+                                        }
+                                        @statusText
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+</script>

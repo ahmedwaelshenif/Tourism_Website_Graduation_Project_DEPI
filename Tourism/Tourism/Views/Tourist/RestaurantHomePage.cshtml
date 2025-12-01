@@ -1,0 +1,294 @@
+﻿@model IEnumerable<Tourism.ViewModel.RestaurantHomePageViewModel>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourmet | Restaurants</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #ff6b6b; /* Base Red */
+            --primary-light: #ff8585;
+            --primary-bright: #ff9e9e;
+            --secondary-color: #4ecdc4;
+            --dark-bg: #f7f9fc;
+            --text-color: #2d3436;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+        }
+
+        /* Search Bar & Icon Integration */
+        .search-container {
+            width: 480px; /* bigger */
+            max-width: 100%;
+            position: relative;
+        }
+
+        .search-input {
+            height: 52px;
+            font-size: 1.05rem;
+            border-radius: 30px;
+            padding-left: 1.5rem;
+            padding-right: 3rem;
+            border: 2px solid var(--primary-color);
+            width: 100%;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+        }
+
+            /* Search bar focus style */
+            .search-input:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 8px rgba(255, 107, 107, 0.3);
+                outline: none;
+            }
+
+        .search-icon-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            padding: 0;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+            .search-icon-btn:hover {
+                color: #ff3333; /* Slightly darker on hover */
+            }
+
+        /* Cards */
+        .restaurant-card {
+            border-radius: 15px;
+            background: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+            .restaurant-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 12px 28px rgba(255, 107, 107, 0.18);
+                border-color: var(--primary-color);
+            }
+
+        .res-img {
+            width: 160px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: .3s ease;
+        }
+
+        .restaurant-card:hover .res-img {
+            transform: scale(1.05);
+        }
+
+        .res-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .res-desc {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .view-btn {
+            transition: .3s ease;
+        }
+
+            .view-btn:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+        /* Log Out Button Style (Bordered) - Updated to match BookingHistory */
+        .nav-action-btn {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+            padding: 5px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+            .nav-action-btn:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+        /* 🌟 MODIFIED: Text Link Style (Balance, Booked, Cart) */
+        .nav-text-link {
+            /* Keep it pure text by default */
+            border: none;
+            background-color: transparent;
+            box-shadow: none;
+            color: var(--primary-color);
+            padding: 5px 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-block; /* Essential for transform to work */
+            margin-left: 5px;
+            /* 🌟 UPDATED: Only transition color and transform */
+            transition: color 0.4s ease, transform 0.4s ease;
+        }
+
+            /* 🌟 FINAL HOVER EFFECT: Only Lift */
+            .nav-text-link:hover {
+                color: var(--primary-color); /* Keep primary color */
+                text-decoration: none;
+                /* ❌ REMOVED: background-color: white; */
+                /* ❌ REMOVED: box-shadow: 0 12px 28px rgba(255, 107, 107, 0.18); */
+                /* 🚨 Synced Lift only */
+                transform: translateY(-6px);
+            }
+
+        /* Change color of the search clear (X) button */
+        .search-input::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+            height: 15px;
+            width: 15px;
+            background: url("data:image/svg+xml;utf8,<svg fill='black' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>") no-repeat center;
+            cursor: pointer;
+        }
+
+        /* Center the form */
+        #searchForm {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+
+            <a class="navbar-brand">
+                <i class="fas fa-utensils me-2"></i>Welcome, @ViewBag.TouristName
+            </a>
+
+            <div class="flex-grow-1 d-flex justify-content-center">
+                <form id="searchForm" class="w-auto">
+                    <div class="search-container">
+                        <input type="search" id="searchInput" name="Search" placeholder="Search Restaurants..."
+                               class="search-input form-control" value="@ViewBag.search" />
+                        <button class="search-icon-btn" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="ms-auto d-flex align-items-center">
+
+                <a asp-action="BookingHistory" asp-controller="Tourist"
+                   class="nav-text-link">
+                    <i class="fas fa-history me-1"></i>Booked Tables
+                </a>
+
+                <!-- Updated Logout Button with BookingHistory styling -->
+                <a class="nav-action-btn" asp-action="Logout" asp-controller="Tourist">
+                    <i class="fas fa-sign-out-alt me-1"></i>Log Out
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row g-3">
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-warning text-center w-100 mt-4" style="background-color: transparent; color:dimgrey; border: none;">
+                    No restaurants available at the moment.
+                </div>
+            }
+            else
+            {
+                @foreach (var r in Model ?? Enumerable.Empty<Tourism.ViewModel.RestaurantHomePageViewModel>())
+                {
+                    <div class="col-12">
+                        <div class="restaurant-card d-flex align-items-center p-3 shadow-sm">
+                            <img src="@(r.Image != null ? "data:image/jpeg;base64," + Convert.ToBase64String(r.Image) : "/images/default-restaurant.png")" class="res-img me-3" />
+
+                            <div class="flex-grow-1">
+                                <div class="res-name">@r.name</div>
+                                <div class="res-desc">@r.description</div>
+                            </div>
+
+                            <div class="flex-grow-1 d-none d-md-block">
+                                <div class="res-name"><label>Address</label></div>
+                                <div class="res-desc">@r.address</div>
+                            </div>
+
+                            <div class="flex-grow-1 d-none d-lg-block">
+                                <div class="res-name"><label>HotLine</label></div>
+                                <div class="res-desc">@r.hotline</div>
+                            </div>
+
+                            <div>
+                                <a asp-action="ViewMenu" asp-controller="Tourist" asp-route-restaurantId="@r.id" class="btn btn-outline-danger fw-semibold ms-3 view-btn">View Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // ❌ يمنع الريلود
+
+            let query = document.getElementById("searchInput").value;
+
+            fetch(`/Tourist/ShowRestaurantssBySearch?Search=${encodeURIComponent(query)}`)
+                .then(response => response.text())
+                .then(html => {
+                    // Replace restaurants list without page reload
+                    document.querySelector(".container .row").innerHTML = html;
+                })
+                .catch(err => console.error(err));
+        });
+    </script>
+
+</body>
+</html>

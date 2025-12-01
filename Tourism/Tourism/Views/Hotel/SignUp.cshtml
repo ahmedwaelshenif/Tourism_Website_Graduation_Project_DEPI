@@ -1,0 +1,241 @@
+﻿@model Tourism.ViewModel.HotelSignUpViewModel
+
+@{
+    ViewData["Title"] = "Hotel Sign Up";
+}
+
+<style>
+    /* 1. Page Background Styling */
+    body {
+        background: linear-gradient(135deg, #f5a9f3, #e5e9ec, #9370db);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    /* 2. Main Card Styling (Form Card) */
+    .signup-card {
+        background: white;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 25px;
+        padding: 40px;
+        max-width: 900px;
+        width: 100%;
+    }
+
+    /* 3. Gradient Header Styling */
+    .card-header-gradient {
+        text-align: center;
+        margin-bottom: 30px;
+        background: linear-gradient(to right, #f47b9c, #9370db);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+    }
+
+    /* 4. Custom Form Group Styling */
+    .form-group-custom {
+        margin-bottom: 20px;
+    }
+
+        /* 5. Required Field Indicator */
+        .form-group-custom .form-label::after {
+            content: " *";
+            color: #f47b9c;
+        }
+
+    /* 6. Submit Button Styling */
+    .btn-submit-gradient {
+        background: linear-gradient(to right, #f47b9c, #9370db);
+        border: none;
+        color: white;
+        font-weight: 600;
+        transition: opacity 0.3s;
+    }
+
+        .btn-submit-gradient:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+    /* 7. Hide Other Governorate Field by Default */
+    #OtherGovernorateField {
+        display: none;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="signup-card">
+                <h1 class="card-header-gradient">Hotel Registration</h1>
+
+                <form method="post" asp-action="SignUp" asp-controller="Hotel" enctype="multipart/form-data">
+                    
+                    <div asp-validation-summary="All" class="text-danger mb-4 fw-bold"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <h3 class="card-header-gradient" style="font-size: 1.5rem;">Hotel Information</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="Name" class="form-label">Hotel Name</label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter hotel name" />
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="Email" class="form-label">Email Address</label>
+                                <input asp-for="Email" type="email" class="form-control" placeholder="Enter email address" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group-custom">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Describe your hotel and its services"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <h3 class="card-header-gradient" style="font-size: 1.5rem;">Security Details</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="Password" class="form-label">Password</label>
+                                <input asp-for="Password" type="password" class="form-control" placeholder="Enter password (min 6 characters)" />
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Re-enter password" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="card-header-gradient" style="font-size: 1.5rem;">Location & Contact</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="Hotline" class="form-label">Hotline/Phone Number</label>
+                                <input asp-for="Hotline" class="form-control" placeholder="Example: 01xxxxxxxxx" />
+                                <span asp-validation-for="Hotline" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="Governorate" class="form-label">Governorate</label>
+                                <select asp-for="Governorate"
+                                        asp-items="Model.GovernorateList"
+                                        class="form-control"
+                                        id="GovernorateDropdown"></select>
+                                <span asp-validation-for="Governorate" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group-custom" id="OtherGovernorateField" style="display: none;">
+                        <label asp-for="OtherGovernorate" class="form-label">Please Specify Governorate</label>
+                        <input asp-for="OtherGovernorate" class="form-control" id="OtherGovernorate" placeholder="Enter Governorate name" />
+                        <span asp-validation-for="OtherGovernorate" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-group-custom">
+                        <label asp-for="Address" class="form-label">Street Address / Detailed Location</label>
+                        <input asp-for="Address" class="form-control" placeholder="Enter the detailed address" />
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
+
+                    <h3 class="card-header-gradient" style="font-size: 1.5rem;">Documents & Files</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="PicFile" class="form-label">Hotel Image</label>
+                                <input asp-for="PicFile" type="file" class="form-control" accept="image/*" />
+                                <span asp-validation-for="PicFile" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="VerificationDocumentFile" class="form-label">Verification Document (Optional)</label>
+                                <input asp-for="VerificationDocumentFile" type="file" class="form-control" accept=".pdf,.doc,.docx,image/*" />
+                                <span asp-validation-for="VerificationDocumentFile" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="card-header-gradient" style="font-size: 1.5rem;">Credit Card Details</h3>
+                    <div class="form-group-custom">
+                        <label asp-for="CreditCard.CardHolder" class="form-label">Card Holder Name</label>
+                        <input asp-for="CreditCard.CardHolder" class="form-control" placeholder="Full Name on Card" />
+                        <span asp-validation-for="CreditCard.CardHolder" class="text-danger small"></span>
+                    </div>
+                    <div class="form-group-custom">
+                        <label asp-for="CreditCard.CardNumber" class="form-label">Card Number</label>
+                        <input asp-for="CreditCard.CardNumber" class="form-control" placeholder="Enter 16-digit card number" />
+                        <span asp-validation-for="CreditCard.CardNumber" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="CreditCard.CVV" class="form-label">CVV</label>
+                                <input asp-for="CreditCard.CVV" class="form-control" maxlength="3" placeholder="123" />
+                                <span asp-validation-for="CreditCard.CVV" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label asp-for="CreditCard.ExpiryDate" class="form-label">Expired Date (MM/YY)</label>
+                                <input asp-for="CreditCard.ExpiryDate" class="form-control" placeholder="MM/YY" />
+                                <span asp-validation-for="CreditCard.ExpiryDate" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-submit-gradient btn-lg">Register Hotel</button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <p class="text-muted">Have an account? <a asp-action="Login" asp-controller="Hotel">Log in</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdown = document.getElementById('GovernorateDropdown');
+            var otherField = document.getElementById('OtherGovernorateField');
+            var otherInput = document.getElementById('OtherGovernorate');
+
+            function toggleOtherField() {
+                if (dropdown.value === 'Other') {
+                    otherField.style.display = 'block';
+                    otherInput.setAttribute('required', 'required');
+                } else {
+                    otherField.style.display = 'none';
+                    otherInput.removeAttribute('required');
+                    otherInput.value = '';
+                }
+            }
+
+            dropdown.addEventListener('change', toggleOtherField);
+            toggleOtherField();
+        });
+    </script>
+}

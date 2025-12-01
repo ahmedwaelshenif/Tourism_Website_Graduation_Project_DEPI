@@ -1,0 +1,34 @@
+﻿@using Tourism.ViewModel;
+@model TableViewModel
+@{
+    <div class="card-header bg-white text-black text-center rounded-top-4">
+        <h4 class="mb-0">Edit Table</h4>
+    </div>
+
+    <div class="modal-body">
+        <form method="post" asp-action="EditTable" asp-controller="Restaurant">
+            <input type="hidden" asp-for="id" />
+        <div class="mb-3">
+                <label class="form-label">Table Number</label>
+                <input asp-for="number" type="number" class="form-control" required placeholder="e.g. 10">
+                <span asp-validation-for="number" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Capacity (Persons)</label>
+                <input asp-for="numberOfPersons" type="number" class="form-control" required placeholder="e.g. 4">
+                <span asp-validation-for="numberOfPersons" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Reservation Price ($)</label>
+                <input asp-for="bookingPrice" type="number" step="0.01" class="form-control" required placeholder="e.g. 25.00">
+                <span asp-validation-for="bookingPrice" class="text-danger small"></span>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger px-5 py-2 rounded-pill shadow-sm">
+                    <i class="bi bi-plus-circle"></i> Save
+                </button>
+            </div>
+        </form>
+    </div>
+}

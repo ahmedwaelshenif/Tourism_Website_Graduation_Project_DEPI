@@ -1,0 +1,68 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/white desert Thumbnail.webp"
+        alt="White Desert"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">White Desert</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About the White Desert</h2>
+        <p class="description-text">
+          <strong>Location:</strong> Farafra, Western Desert
+        </p>
+        <p class="description-text">
+          The White Desert is a surreal landscape filled with chalk rock
+          formations sculpted naturally by wind and sand. Travelers enjoy
+          camping under the stars, desert safaris, and exploration of nearby
+          oases like Bahariya.
+        </p>
+        <p class="description-text">
+          The area offers some of the clearest night skies in Egypt.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=27.4500,27.9500&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="Photos/WhiteDesertPic1.jpg" alt="White Desert Gallery 1" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/WhiteDesertPic2.jpg" alt="White Desert Gallery 2" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/WhiteDesertPic3.jpg" alt="White Desert Gallery 3" />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

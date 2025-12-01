@@ -1,0 +1,77 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/Citadel_Of_Saladin_Thumbnail.jpg"
+        alt="Citadel of Saladin"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Citadel of Saladin</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About the Citadel of Saladin</h2>
+        <p class="description-text"><strong>Location:</strong> Cairo</p>
+        <p class="description-text">
+          This medieval fortress, built in the 12th century, sits high above
+          Cairo and offers sweeping views of the entire city. Inside the complex
+          stands the stunning Mosque of Muhammad Ali, known for its shining
+          alabaster walls and impressive Ottoman design.
+        </p>
+        <p class="description-text">
+          The Citadel also houses museums, ancient mosques, and historic gates,
+          all wrapped in a setting that tells the story of Egypt's military and
+          Islamic heritage.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=30.0297,31.2600&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/CitadelOfSaladinPic1.jpg"
+            alt="Citadel of Saladin Gallery 1"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/CitadelOfSaladinPic2.webp"
+            alt="Citadel of Saladin Gallery 2"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/CitadelOfSaladinPic3.jpg"
+            alt="Citadel of Saladin Gallery 3"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

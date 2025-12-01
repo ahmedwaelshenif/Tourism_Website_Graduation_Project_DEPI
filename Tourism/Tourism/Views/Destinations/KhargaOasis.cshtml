@@ -1,0 +1,65 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/Kharga-OasisThumbnail.webp"
+        alt="Kharga Oasis"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Kharga Oasis</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About Kharga Oasis</h2>
+        <p class="description-text"><strong>Location:</strong> New Valley</p>
+        <p class="description-text">
+          Known for ancient temples, archaeological remains, and natural farms.
+        </p>
+        <p class="description-text">
+          The largest of Egypt's western oases, Kharga offers a fascinating
+          blend of Greco-Roman and Pharaonic heritage set against a backdrop of
+          fertile agricultural land and desert beauty.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=25.4418,30.5428&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="Photos/KhargaOasisPic1.jpg" alt="Kharga Oasis Gallery 1" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/Kharga-OasisPic2.jpg" alt="Kharga Oasis Gallery 2" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/KhargaOasisPic3.jpg" alt="Kharga Oasis Gallery 3" />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

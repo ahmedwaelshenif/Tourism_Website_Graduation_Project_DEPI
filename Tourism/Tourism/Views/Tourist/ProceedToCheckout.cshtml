@@ -1,0 +1,137 @@
+﻿@using Tourism.ViewModel
+@model List<ProductViewModel>
+
+@{
+    Layout = "EcommerceLayout";
+}
+
+
+<div class="container transaction-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <h2 class="transaction-title">Complete Your Purchase</h2>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger text-center" role="alert">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+            <div class="shipping-address">
+                <h5 class="section-subtitle">Shipping Address</h5>
+
+                <form asp-action="PurchaseProduct" asp-controller="Tourist" method="post" id="purchaseForm">
+                    <!-- Hidden field for purchaseData -->
+                    @if (Model != null)
+                    {
+                        for (int i = 0; i < Model.Count; i++)
+                        {
+                            <input type="hidden" name="purchaseData[@i].productId" value="@Model[i].productId" />
+                            <input type="hidden" name="purchaseData[@i].count" value="@Model[i].count" />
+                            <input type="hidden" name="purchaseData[@i].price"
+                                   value="@(Model[i].price - (Model[i].price * Model[i].offer / 100.0))" />
+                            <input type="hidden" name="purchaseData[@i].DeliversWithin" value="@Model[i].DeliversWithin" />
+                            <input type="hidden" name="purchaseData[@i].id" value="@Model[i].id" />
+                            <input type="hidden" name="purchaseData[@i].name" value="@Model[i].name" />
+                        }
+                    }
+
+                    <!-- Address Info -->
+                    <div class="mb-3">
+                        <label class="form-label">Country</label>
+                        <select name="country" class="form-select" required>
+                            <option value="">Select Country</option>
+                            <option>United States</option>
+                            <option>Egypt</option>
+                            <option>United Kingdom</option>
+                            <option>Germany</option>
+                            <option>France</option>
+                            <option>Italy</option>
+                            <option>Spain</option>
+                            <option>India</option>
+                            <option>China</option>
+                            <option>Japan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <input type="text" name="address" class="form-control" placeholder="e.g. Cairo" required />
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="payment-method-section">
+                        <h5 class="section-subtitle">Select Payment Method</h5>
+
+                        <div class="payment-option">
+                            <input type="radio" id="balancePayment" name="paymentType" value="false" checked onchange="togglePaymentForm()">
+                            <label for="balancePayment" class="payment-label">
+                                <div class="payment-details">
+                                    <div class="payment-title">Pay with Balance</div>
+                                    <div class="payment-description">Use your account balance</div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="creditCardPayment" name="paymentType" value="true" onchange="togglePaymentForm()">
+                            <label for="creditCardPayment" class="payment-label">
+                                <div class="payment-details">
+                                    <div class="payment-title">Pay with Credit Card</div>
+                                    <div class="payment-description">Visa, Mastercard, American Express</div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Credit Card Info -->
+                        <div id="creditCardForm" class="credit-card-form" style="display: none;">
+                            <h5 class="section-subtitle">Card Details</h5>
+
+                            <div class="mb-3">
+                                <label class="form-label">Cardholder Name</label>
+                                <input type="text" name="cc.Cardholder" class="form-control" placeholder="John Doe" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Card Number</label>
+                                <input type="text" name="cc.CardNumber" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" />
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Expiry Date</label>
+                                    <input type="text" name="cc.ExpiryDate" class="form-control" placeholder="MM/YY" maxlength="5" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">CVV</label>
+                                    <input type="password" name="cc.CVV" class="form-control" placeholder="123" maxlength="3" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-purchase">Complete Purchase</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePaymentForm() {
+            const creditCardRadio = document.getElementById('creditCardPayment');
+            const creditCardForm = document.getElementById('creditCardForm');
+            const cardInputs = creditCardForm.querySelectorAll('input');
+
+            if (creditCardRadio.checked) {
+                creditCardForm.style.display = 'block';
+                cardInputs.forEach(i => i.setAttribute('required', 'required'));
+            } else {
+                creditCardForm.style.display = 'none';
+                cardInputs.forEach(i => i.removeAttribute('required'));
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', togglePaymentForm);
+    </script>
+}

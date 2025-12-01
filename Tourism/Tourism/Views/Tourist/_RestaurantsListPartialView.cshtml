@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Tourism.ViewModel.RestaurantHomePageViewModel>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-warning text-center w-100 mt-4"
+         style="background-color: transparent; color:dimgrey; border: none;">
+        No restaurants available at the moment.
+    </div>
+}
+else
+{
+    @foreach (var r in Model)
+    {
+        <div class="col-12">
+            <div class="restaurant-card d-flex align-items-center p-3 shadow-sm">
+                <img src="@(r.Image != null
+                                                     ? "data:image/jpeg;base64," + Convert.ToBase64String(r.Image)
+                                                     : "/images/default-restaurant.png")"
+             class="res-img me-3" />
+
+                <div class="flex-grow-1">
+                    <div class="res-name">@r.name</div>
+                    <div class="res-desc">@r.description</div>
+                </div>
+
+                <div class="flex-grow-1 d-none d-md-block">
+                    <div class="res-name"><label>Address</label></div>
+                    <div class="res-desc">@r.address</div>
+                </div>
+
+                <div class="flex-grow-1 d-none d-lg-block">
+                    <div class="res-name"><label>HotLine</label></div>
+                    <div class="res-desc">@r.hotline</div>
+                </div>
+
+                <div>
+                    <a asp-action="ViewMenu"
+                       asp-controller="Tourist"
+                       asp-route-restaurantId="@r.id"
+                       class="btn btn-outline-danger fw-semibold ms-3 view-btn">
+                        View Menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+}

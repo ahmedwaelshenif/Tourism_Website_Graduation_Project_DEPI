@@ -1,0 +1,193 @@
+﻿@using Tourism.ViewModel
+@model List<MealViewModel>
+
+<style>
+    :root {
+        --primary-color: #ff6b6b;
+        --primary-light: #ff8585;
+        --primary-bright: #ff9e9e;
+        --secondary-color: #4ecdc4;
+        --dark-bg: #f7f9fc;
+        --text-color: #2d3436;
+    }
+
+    body {
+        background-color: var(--dark-bg);
+    }
+
+    /* Page Title */
+    .dashboard-title {
+        font-weight: 700;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    /* Meal Card – SAME AS RESTAURANT CARD */
+    .meal-card {
+        border-radius: 15px;
+        background: white;
+        padding: 15px;
+        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+        border: 2px solid transparent;
+        cursor: pointer;
+        margin-bottom: 12px;
+    }
+
+        .meal-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.20);
+            border-color: var(--primary-color);
+        }
+
+    /* Image same style as restaurant images */
+    .meal-img img {
+        width: 160px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 12px;
+        transition: .3s ease;
+    }
+
+    .meal-card:hover .meal-img img {
+        transform: scale(1.05);
+    }
+
+    /* Titles & Text */
+    .meal-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--text-color);
+    }
+
+    .meal-desc {
+        font-size: .95rem;
+        color: #555;
+    }
+
+    .meal-price {
+        font-size: 1rem;
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    /* State tags */
+    .meal-state {
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .state-accepted {
+        background: #e1f7e6;
+        color: #1e7a2e;
+        border: 1px solid #b9e8c2;
+    }
+
+    .state-pending {
+        background: #fff3cd;
+        color: #996c00;
+        border: 1px solid #ffe69c;
+    }
+
+    /* Action Buttons — SAME THEME AS restaurant homepage */
+    /* Applied to actual buttons and the new back link */
+    .meal-actions button,
+    .btn-back-dashboard {
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        background: white;
+        border-radius: 6px;
+        padding: 5px 10px;
+        transition: all .3s ease;
+        width: 100%;
+        margin-bottom: 5px;
+        text-decoration: none; /* For the anchor tag */
+        display: block; /* Ensure the anchor tag behaves like a block button */
+        text-align: center;
+    }
+
+        /* Hover style applied to buttons and the new back link */
+        .meal-actions button:hover,
+        .btn-back-dashboard:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.18);
+        }
+
+    /* Delete Button Special */
+    .meal-actions .btn-danger {
+        border-color: #d9534f;
+        color: #d9534f;
+    }
+
+        .meal-actions .btn-danger:hover {
+            background: #d9534f;
+            color: white;
+        }
+</style>
+
+<div class="container mt-4">
+
+    <h2 class="dashboard-title mb-4">Your Menu Items</h2>
+
+    <div class="row g-4">
+        @foreach (var meal in Model)
+        {
+            <div class="col-12">
+                <div class="meal-card d-flex align-items-center shadow-sm">
+
+                    <div class="meal-img">
+                        @if (meal.ImageBytes != null)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(meal.ImageBytes)" alt="Meal Image" />
+                        }
+                        else
+                        {
+                            <img src="/pics/no_image_available.png" alt="No Image" />
+                        }
+                    </div>
+
+                    <div class="meal-info flex-grow-1 px-3">
+                        <h5 class="meal-title">@meal.name</h5>
+                        <p class="meal-desc mb-1">@meal.description</p>
+                        <p class="meal-price fw-bold mb-1">$@meal.price</p>
+
+                        <span class="meal-state @(meal.accepted ? "state-accepted" : "state-pending")">
+                            @(meal.accepted ? "Accepted" : "Pending")
+                        </span>
+                    </div>
+
+                    <div class="meal-actions text-end">
+
+                        <form asp-controller="Restaurant" asp-action="EditMeal" method="get" style="display:inline;">
+                            <input type="hidden" name="id" value="@meal.id" />
+                            <button type="submit" class="btn btn-primary btn-sm mb-1 w-100">Edit</button>
+                        </form>
+
+                        <form asp-controller="Restaurant" asp-action="DeleteMeal" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@meal.id" />
+                            <button type="submit" class="btn btn-danger btn-sm w-100 mt-2">Delete</button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row mt-5 mb-5">
+        <div class="col-12 col-md-6 offset-md-3">
+            <a asp-controller="Restaurant" asp-action="RestaurantDashboard" class="btn-back-dashboard">
+                &larr; Back to Restaurant Dashboard
+            </a>
+        </div>
+    </div>
+
+</div>

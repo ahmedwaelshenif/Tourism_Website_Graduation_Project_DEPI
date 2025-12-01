@@ -1,0 +1,231 @@
+﻿@using System.Security.Claims
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Tourism</title>
+
+    <!-- Bootstrap & Site Styles -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Ecommerce.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Tourism.styles.css" asp-append-version="true" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+        .navbar {
+            padding: 0.75rem 0;
+        }
+
+        main {
+            padding-top: 80px;
+        }
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: #6f42c1 !important;
+        }
+
+            .navbar-brand i {
+                margin-right: 0.5rem;
+            }
+
+        .btn-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            padding: 0.25rem 0.5rem;
+        }
+
+            .btn-sidebar:hover {
+                color: #6f42c1;
+            }
+
+        .navbar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+            .navbar-nav .nav-link i {
+                margin-right: 0.5rem;
+                font-size: 1.1rem;
+            }
+
+            .navbar-nav .nav-link:hover {
+                color: #6f42c1 !important;
+                transform: translateY(-2px);
+            }
+
+        .cart-logo {
+            position: relative;
+            font-weight: 500;
+        }
+
+            .cart-logo i {
+                font-size: 1.3rem;
+            }
+
+        #navbar-search-form {
+            max-width: 500px;
+        }
+
+        .btn-outline-eggplant {
+            border-color: #6f42c1;
+            color: #6f42c1;
+        }
+
+            .btn-outline-eggplant:hover {
+                background-color: #6f42c1;
+                color: white;
+            }
+
+        .form-control:focus {
+            border-color: #6f42c1;
+            box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm fixed-top">
+        <div class="container-fluid">
+            <button class="btn btn-sidebar me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-compass"></i>Tourism
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <form class="d-flex mx-auto w-50" asp-controller="Tourist" asp-action="ShowProductsBySearch" method="get">
+                    <input class="form-control rounded-pill px-3 me-2"
+                           type="search"
+                           name="search"
+                           placeholder="Search for products..."
+                           aria-label="Search"
+                           required />
+                    <button type="submit" class="btn btn-outline-eggplant rounded-pill px-4">Search</button>
+                </form>
+                <div class="navbar-nav align-items-center">
+                    @if (User.FindFirst(ClaimTypes.Role)?.Value == "Tourist")
+                    {
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-person-circle"></i>
+                            @User.FindFirst(ClaimTypes.Name)?.Value
+                        </a>
+                        <a class="nav-link" asp-action="Balance" asp-controller="Tourist">
+                            <i class="bi bi-wallet2"></i>
+                            Balance
+                        </a>
+                        <a class="nav-link" asp-action="ShowOrders" asp-controller="Tourist">
+                            <i class="bi bi-bag-check"></i>
+                            Orders
+                        </a>
+                        <a class="nav-link cart-logo" asp-action="ViewCart" asp-controller="Tourist">
+                            <i class="bi bi-cart3"></i>
+                            Cart
+                        </a>
+                        <a class="nav-link" asp-action="LogOut" asp-controller="Tourist">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Log Out
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="nav-link" asp-action="Login" asp-controller="Tourist">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Login
+                        </a>
+                        <a class="nav-link" asp-action="SignUp" asp-controller="Tourist">
+                            <i class="bi bi-person-plus"></i>
+                            Sign Up
+                        </a>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">
+                <i class="bi bi-compass"></i> Explore
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <a href="#"><i class="bi bi-star-fill me-2"></i>Best Sellers</a>
+            <a href="#"><i class="bi bi-gift me-2"></i>New Releases</a>
+            <a href="#categories"><i class="bi bi-grid me-2"></i>Shop by Category</a>
+            <hr>
+            <h6 class="text-primary mb-3 mt-2">Categories</h6>
+            <a href="#"><i class="bi bi-emoji-smile me-2"></i>Local Souvenirs</a>
+            <a href="#"><i class="bi bi-backpack me-2"></i>Travel Gear</a>
+            <a href="#"><i class="bi bi-brightness-high me-2"></i>Beachwear</a>
+            <a href="#"><i class="bi bi-tree me-2"></i>Outdoor Equip.</a>
+            <a href="#"><i class="bi bi-suitcase me-2"></i>Travel Essentials</a>
+            <a href="#"><i class="bi bi-shop me-2"></i>Clothing</a>
+            <a href="#"><i class="bi bi-gem me-2"></i>Jewelry</a>
+            <a href="#"><i class="bi bi-laptop me-2"></i>Electronics</a>
+            <a href="#"><i class="bi bi-heart-pulse me-2"></i>Health</a>
+            <a href="#"><i class="bi bi-cup-hot me-2"></i>Food</a>
+            <a href="#"><i class="bi bi-palette me-2"></i>Culture & Art</a>
+            <a href="#"><i class="bi bi-ticket-perforated me-2"></i>Event Tickets</a>
+        </div>
+    </div>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer mt-auto">
+        <div class="container py-4">
+            <div class="row text-white">
+                <div class="col-md-4 mb-3">
+                    <h5><i class="bi bi-compass me-2"></i>Tourism</h5>
+                    <p>Your one-stop shop for all travel essentials and local goodies!</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-house me-2"></i>Home</a></li>
+                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-shop me-2"></i>Shop</a></li>
+                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-bag-check me-2"></i>Orders</a></li>
+                        <li><a href="#" class="text-white text-decoration-none"><i class="bi bi-envelope me-2"></i>Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Follow Us</h5>
+                    <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i> Facebook</a><br />
+                    <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i> Twitter</a><br />
+                    <a href="#" class="text-white"><i class="bi bi-instagram"></i> Instagram</a>
+                </div>
+            </div>
+            <hr class="bg-light" />
+            <div class="text-center text-white">
+                &copy; @DateTime.Now.Year Tourism. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,625 @@
+﻿@using Tourism.ViewModel
+@model List<ProductViewModel>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6a1b9a;
+            --primary-light: #9c4dcc;
+            --primary-dark: #38006b;
+            --success: #00897b;
+            --success-dark: #00695c;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --border-color: #e2e8f0;
+            --bg-light: #f7fafc;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px 0;
+            min-height: 100vh;
+        }
+
+        .orders-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid transparent;
+            border-image: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-image-slice: 1;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 20px rgba(106, 27, 154, 0.3);
+        }
+
+        .header-text h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .header-text p {
+            color: var(--text-light);
+            margin: 5px 0 0 0;
+            font-size: 1rem;
+        }
+
+        .orders-badge {
+            background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0, 137, 123, 0.3);
+        }
+
+            .orders-badge i {
+                font-size: 1.1rem;
+            }
+
+        .orders-table {
+            margin: 0;
+            border: none;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+
+            .orders-table thead {
+                background: transparent;
+            }
+
+                .orders-table thead th {
+                    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+                    color: white;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: 0.85rem;
+                    letter-spacing: 0.8px;
+                    padding: 20px 24px;
+                    border: none;
+                    vertical-align: middle;
+                }
+
+                    .orders-table thead th:first-child {
+                        border-radius: 14px 0 0 14px;
+                    }
+
+                    .orders-table thead th:last-child {
+                        border-radius: 0 14px 14px 0;
+                    }
+
+            .orders-table tbody tr {
+                background: white;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+                border-radius: 14px;
+            }
+
+                .orders-table tbody tr:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+                }
+
+            .orders-table tbody td {
+                padding: 24px;
+                vertical-align: middle;
+                color: var(--text-dark);
+                font-size: 0.95rem;
+                border: none;
+                background: inherit;
+            }
+
+                .orders-table tbody td:first-child {
+                    border-radius: 14px 0 0 14px;
+                }
+
+                .orders-table tbody td:last-child {
+                    border-radius: 0 14px 14px 0;
+                }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .product-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1.05rem;
+        }
+
+        .product-id {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+
+        .amount-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(106, 27, 154, 0.1) 0%, rgba(106, 27, 154, 0.15) 100%);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            min-width: 60px;
+            border: 2px solid rgba(106, 27, 154, 0.2);
+        }
+
+        .date-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+            .date-info i {
+                color: var(--primary-light);
+                font-size: 1.1rem;
+            }
+
+        .customer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-light);
+            padding: 8px 16px;
+            border-radius: 10px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+            .customer-badge i {
+                color: var(--primary-light);
+            }
+
+        .btn-delivered {
+            background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 137, 123, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+            .btn-delivered:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0, 137, 123, 0.4);
+                background: linear-gradient(135deg, var(--success-dark) 0%, var(--success) 100%);
+            }
+
+            .btn-delivered:active:not(:disabled) {
+                transform: translateY(0);
+            }
+
+            .btn-delivered:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            .btn-delivered i {
+                transition: transform 0.3s ease;
+            }
+
+            .btn-delivered:hover:not(:disabled) i {
+                transform: scale(1.2);
+            }
+
+        /* Animation for row removal */
+       @@keyframes fadeOutLeft {
+            from
+
+        {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+
+        }
+
+        .removing-row {
+            animation: fadeOutLeft 0.4s ease forwards;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--bg-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+        }
+
+            .empty-state-icon i {
+                font-size: 4rem;
+                color: var(--border-color);
+            }
+
+        .empty-state h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, rgba(0, 137, 123, 0.1) 0%, rgba(0, 137, 123, 0.05) 100%);
+            border-left: 4px solid var(--success);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+        }
+
+            .success-message i {
+                color: var(--success);
+                font-size: 1.5rem;
+            }
+
+            .success-message.show {
+                display: flex;
+                animation: slideIn 0.4s ease;
+            }
+
+        @@keyframes slideIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        @@media (max-width: 992px) {
+            .orders-container
+
+        {
+            padding: 25px;
+            border-radius: 16px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .header-content {
+            flex-direction: column;
+        }
+
+        .header-text h1 {
+            font-size: 1.8rem;
+        }
+
+        }
+
+        @@media (max-width: 768px) {
+            .orders-table thead
+
+        {
+            display: none;
+        }
+
+        .orders-table tbody tr {
+            display: block;
+            margin-bottom: 20px;
+            border-radius: 14px;
+        }
+
+        .orders-table tbody td {
+            display: block;
+            padding: 15px 20px;
+            border-radius: 0 !important;
+            text-align: left;
+            position: relative;
+            padding-left: 140px;
+        }
+
+            .orders-table tbody td:first-child {
+                border-radius: 14px 14px 0 0 !important;
+            }
+
+            .orders-table tbody td:last-child {
+                border-radius: 0 0 14px 14px !important;
+                padding-left: 20px;
+            }
+
+            .orders-table tbody td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 20px;
+                font-weight: 700;
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                color: var(--primary);
+                letter-spacing: 0.5px;
+            }
+
+            .orders-table tbody td:last-child::before {
+                display: none;
+            }
+
+        .product-info {
+            justify-content: flex-start;
+        }
+
+        .btn-delivered {
+            width: 100%;
+            justify-content: center;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="orders-container">
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <strong>Order Delivered!</strong>
+                    <p style="margin: 0; font-size: 0.9rem;">The order has been marked as delivered successfully.</p>
+                </div>
+            </div>
+
+            <div class="page-header">
+                <div class="header-content">
+                    <div class="header-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="header-text">
+                        <h1>Orders Management</h1>
+                        <p>Track and manage product deliveries</p>
+                    </div>
+                </div>
+                <span class="orders-badge">
+                    <i class="fas fa-box"></i>
+                    <span id="orderCount">@Model.Count</span> Active Orders
+                </span>
+            </div>
+
+            <div id="ordersTableContainer">
+                @if (Model != null && Model.Count > 0)
+                {
+                    <div class="table-responsive">
+                        <table class="table orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Order Date</th>
+                                    <th>Customer ID</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="row-@item.productId-@item.id">
+                                        <td data-label="Product">
+                                            <div class="product-info">
+                                                <div class="product-icon">
+                                                    <i class="fas fa-box-open"></i>
+                                                </div>
+                                                <div class="product-details">
+                                                    <span class="product-name">@item.name</span>
+                                                    <span class="product-id">Product ID: @item.productId</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-label="Quantity">
+                                            <span class="amount-badge">@item.count</span>
+                                        </td>
+                                        <td data-label="Order Date">
+                                            <div class="date-info">
+                                                <i class="fas fa-calendar-alt"></i>
+                                                <span>@item.orderDate</span>
+                                            </div>
+                                        </td>
+                                        <td data-label="Customer">
+                                            <span class="customer-badge">
+                                                <i class="fas fa-user"></i>
+                                                @item.id
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <form asp-controller="Admin" asp-action="ShipProduct" method="post" class="ship-form">
+                                                <input type="hidden" name="orderId" value="@item.productId">
+                                                <button type="submit" class="btn-delivered">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    Mark as Delivered
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <h3>No Active Orders</h3>
+                        <p>All orders have been delivered successfully!</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.ship-form');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(this);
+                    const orderId = formData.get('orderId');
+                    const row = this.closest('tr');
+                    const button = this.querySelector('.btn-delivered');
+                    const originalButtonText = button.innerHTML;
+
+                    // Show loading state
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                    button.disabled = true;
+
+                    // Submit the form via fetch API
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Show success message
+                            const successMessage = document.getElementById('successMessage');
+                            successMessage.classList.add('show');
+
+                            setTimeout(() => {
+                                successMessage.classList.remove('show');
+                            }, 3000);
+
+                            // Remove row with animation
+                            row.classList.add('removing-row');
+
+                            setTimeout(() => {
+                                row.remove();
+
+                                // Update order count
+                                const tbody = document.getElementById('ordersTableBody');
+                                const remainingOrders = tbody.querySelectorAll('tr').length;
+                                document.getElementById('orderCount').textContent = remainingOrders;
+
+                                // Show empty state if no orders left
+                                if (remainingOrders === 0) {
+                                    const container = document.getElementById('ordersTableContainer');
+                                    container.innerHTML = `
+                                        <div class="empty-state">
+                                            <div class="empty-state-icon">
+                                                <i class="fas fa-box-open"></i>
+                                            </div>
+                                            <h3>No Active Orders</h3>
+                                            <p>All orders have been delivered successfully!</p>
+                                        </div>
+                                    `;
+                                }
+                            }, 400);
+                        } else {
+                            throw new Error('Network response was not ok');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        button.innerHTML = originalButtonText;
+                        button.disabled = false;
+                        alert('Error processing delivery. Please try again.');
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

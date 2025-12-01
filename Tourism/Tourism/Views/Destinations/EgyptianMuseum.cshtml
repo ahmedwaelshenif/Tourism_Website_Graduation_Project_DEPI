@@ -1,0 +1,67 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <!-- Hero Header Section -->
+    <section class="destination-hero">
+      <img
+        src="Photos/Egyptian-Museum_Thumbnail.jpg"
+        alt="The Egyptian Museum"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">The Egyptian Museum</h1>
+      </div>
+    </section>
+
+    <!-- Description Section -->
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About the Egyptian Museum</h2>
+        <p class="description-text">
+          Home to over 120,000 ancient artifacts, the Egyptian Museum holds the
+          largest and most significant collection of Pharaonic heritage in the
+          world. Inside, visitors can explore royal mummies, colossal statues,
+          jewelry, papyrus scrolls, and the glittering treasures of Tutankhamun
+          — including his famous solid-gold funerary mask. The museum's historic
+          architecture adds to the experience, making every hall feel like a
+          journey through time.
+        </p>
+        <p class="description-text"><b>Location:</b> Tahrir Square, Cairo</p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=30.0478,31.2336&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      >
+      </iframe>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/Egyptian-Museum_Thumbnail.jpg"
+            alt="Egyptian Museum Gallery 1"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

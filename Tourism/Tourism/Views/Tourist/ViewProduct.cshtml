@@ -1,0 +1,662 @@
+﻿@using Tourism.ViewModel
+@model ProductViewModel
+@using System.Security.Claims
+@{
+    Layout = "EcommerceLayout";
+}
+
+<style>
+    /* Quantity Selector Styles */
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .quantity-label {
+        font-weight: 600;
+        color: #003D5B;
+        font-size: 1rem;
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        overflow: hidden;
+        background: white;
+        transition: all 0.3s ease;
+    }
+
+        .quantity-control:hover {
+            border-color: #003D5B;
+            box-shadow: 0 2px 8px rgba(0, 61, 91, 0.1);
+        }
+
+    .quantity-btn {
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: #f8f9fa;
+        color: #003D5B;
+        font-size: 1.25rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .quantity-btn:hover:not(:disabled) {
+            background: #003D5B;
+            color: white;
+        }
+
+        .quantity-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+    .quantity-input {
+        width: 60px;
+        height: 40px;
+        border: none;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #003D5B;
+        background: white;
+    }
+
+        .quantity-input:focus {
+            outline: none;
+        }
+
+        /* Remove spinner arrows */
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .quantity-input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+    .stock-info {
+        display: inline-block;
+        font-size: 0.9rem;
+        color: #666;
+        margin-left: 0.5rem;
+    }
+
+        .stock-info.low-stock {
+            color: #ff9800;
+            font-weight: 600;
+        }
+
+    /* Out of Stock Badge */
+    .out-of-stock-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+    }
+
+    .out-of-stock-message {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        border-radius: 8px;
+        color: #856404;
+    }
+
+    /* Action Buttons - Updated to Purple */
+    .action-buttons {
+        margin-top: 1.5rem;
+    }
+
+    .btn-add-cart,
+    .btn-buy-now {
+        padding: 0.85rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-add-cart {
+        background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);
+        color: white !important;
+    }
+
+        .btn-add-cart:hover:not(:disabled) {
+            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.4);
+        }
+
+        .btn-add-cart.added {
+            background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);
+            color: white !important;
+            opacity: 0.9;
+        }
+
+    .btn-buy-now {
+        background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);
+        color: white !important;
+    }
+
+        .btn-buy-now:hover {
+            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.4);
+        }
+
+        .btn-add-cart:disabled,
+        .btn-buy-now:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+    /* Rating Stars - Yellow */
+    .rating-display span {
+        color: #FFD700;
+        font-size: 1.2rem;
+    }
+
+    .rating-display span[style*="color:#ccc"] {
+        color: #ccc !important;
+    }
+
+    /* Star Rating Input - Yellow */
+    .star-rating-input {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        gap: 0.3rem;
+    }
+
+    .star-rating-input input {
+        display: none;
+    }
+
+    .star-rating-input label {
+        font-size: 2rem;
+        color: #ddd;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+
+    .star-rating-input input:checked ~ label,
+    .star-rating-input label:hover,
+    .star-rating-input label:hover ~ label {
+        color: #FFD700;
+    }
+
+    /* Review Card with User Icon */
+    .review-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .review-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+    .review-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .review-user-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .review-info {
+        flex: 1;
+    }
+
+    .review-rating {
+        display: flex;
+        gap: 0.2rem;
+        margin-bottom: 0.25rem;
+    }
+
+        .review-rating span {
+            color: #FFD700;
+            font-size: 1.1rem;
+        }
+
+        .review-rating span[style*="color:#ccc"] {
+            color: #ccc !important;
+        }
+
+    .review-date {
+        font-size: 0.85rem;
+        color: #666;
+        margin: 0;
+    }
+
+    .review-comment {
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+        padding-left: 64px;
+    }
+
+    /* Submit Review Button - Purple */
+    .btn-submit-review {
+        background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);
+        color: white !important;
+        padding: 0.75rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .btn-submit-review:hover {
+            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.4);
+        }
+</style>
+
+<body>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail-section">
+        <div class="container">
+            <div class="row">
+                <!-- Product Images -->
+                <div class="col-md-5">
+                    <div class="product-image-container">
+                        @if (Model.UploadedImages != null && Model.UploadedImages.Any())
+                        {
+                            using (var ms = new MemoryStream())
+                            {
+                                Model.UploadedImages[0].CopyTo(ms);
+                                var bytes = ms.ToArray();
+                                <img id="mainImage" class="main-image" src="data:image/jpeg;base64,@Convert.ToBase64String(bytes)" alt="@Model.name" />
+                            }
+
+                            if (Model.UploadedImages.Count > 1)
+                            {
+                                <div class="thumbnail-container">
+                                    @for (int i = 0; i < Model.UploadedImages.Count; i++)
+                                    {
+                                        using (var ms = new MemoryStream())
+                                        {
+                                            Model.UploadedImages[i].CopyTo(ms);
+                                            var bytes = ms.ToArray();
+                                            var base64 = Convert.ToBase64String(bytes);
+                                            <img class="thumbnail @(i == 0 ? "active" : "")"
+                                                 src="data:image/jpeg;base64,@base64"
+                                                 alt="@Model.name thumbnail @(i+1)"
+                                                 onclick="changeMainImage(this)" />
+                                        }
+                                    }
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <img id="mainImage" class="main-image" src="@Url.Content("~/pics/placeholder.jpg")" alt="@Model.name" />
+                        }
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="col-md-7">
+                    <div class="product-info-container">
+                        <h1 class="product-title">@Model.name</h1>
+
+                        @if (!string.IsNullOrEmpty(Model.MerchantName))
+                        {
+                            <p class="merchant-name">Sold by: <span>@Model.MerchantName</span></p>
+                        }
+
+                        <!-- Rating -->
+                        <div class="rating-display">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= Model.rate)
+                                {
+                                    <span>★</span>
+                                }
+                                else
+                                {
+                                    <span style="color:#ccc;">★</span>
+                                }
+                            }
+                            <span>(@Model.rate.ToString("0.0") / 5.0)</span>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="price-section">
+                            @if (Model.offer > 0)
+                            {
+                                var discountedPrice = Model.price - (Model.price * Model.offer / 100.0);
+                                <span class="current-price">$@discountedPrice.ToString("0.00")</span>
+                                <span class="original-price">$@Model.price.ToString("0.00")</span>
+                                <span class="offer-badge">@Model.offer% OFF</span>
+                            }
+                            else
+                            {
+                                <span class="current-price">$@Model.price.ToString("0.00")</span>
+                            }
+                        </div>
+
+                        <!-- Description -->
+                        <div class="product-description">
+                            <h5 style="color: #003D5B; font-weight: 600;">Description</h5>
+                            <p>@Model.description</p>
+                        </div>
+
+                        <!-- Delivery Info -->
+                        @if (Model.deliveryDate.HasValue)
+                        {
+                            <div class="delivery-info">
+                                <strong>Delivery Date:</strong> @Model.deliveryDate.Value.ToString("MMMM dd, yyyy")
+                            </div>
+                        }
+
+                        @if (Model.count > 0)
+                        {
+                            <!-- Quantity Selector -->
+                            <div class="quantity-selector">
+                                <span class="quantity-label">Quantity:</span>
+                                <div class="quantity-control">
+                                    <button type="button" class="quantity-btn" id="decreaseBtn">−</button>
+                                    <input type="number"
+                                           class="quantity-input"
+                                           id="quantityInput"
+                                           value="1"
+                                           min="1"
+                                           max="@Model.count"
+                                           readonly />
+                                    <button type="button" class="quantity-btn" id="increaseBtn">+</button>
+                                </div>
+                                <span class="stock-info @(Model.count <= 5 ? "low-stock" : "")">
+                                    @if (Model.count <= 5)
+                                    {
+                                        <text>Only @Model.count left!</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@Model.count available</text>
+                                    }
+                                </span>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="action-buttons d-flex gap-2">
+                                <!-- Add to Cart -->
+                                <button type="button" class="btn btn-add-cart" id="btnAddToCart" data-product-id="@Model.productId">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                        <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1 .485.379L2.89 5H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 13H4a.5.5 0 0
+                                            1-.491-.408L1.01 2H.5a.5.5 0 0
+                                            1-.5-.5zM3.14 6l1.25 5h8.22l1.25-5H3.14zM5.5
+                                            12a1 1 0 1 0 0 2 1 1 0 0 0
+                                            0-2zm6 0a1 1 0 1 0 0 2 1
+                                            1 0 0 0 0-2z" />
+                                    </svg>
+                                    Add to Cart
+                                </button>
+
+                                <!-- Buy Now -->
+                                <form asp-action="ProceedToCheckout" asp-controller="Tourist" method="post" id="purchaseForm">
+                                    <input type="hidden" name="purchaseData[0].productId" value="@Model.productId" />
+                                    <input type="hidden" name="purchaseData[0].count" id="hiddenQuantityBuy" value="1" />
+                                    <input type="hidden" name="purchaseData[0].price" id="hiddenPriceBuy" value="@(Model.price - (Model.price * Model.offer / 100.0))" />
+                                    <input type="hidden" name="purchaseData[0].DeliversWithin" value="@Model.DeliversWithin" />
+                                    <input type="hidden" name="purchaseData[0].name" value="@Model.name" />
+                                    <input type="hidden" name="purchaseData[0].id" value="@Model.id" />
+
+                                    <button type="submit" class="btn btn-buy-now" id="checkout-btn">
+                                        <!-- SVG omitted for brevity -->
+                                        Buy Now
+                                    </button>
+                                </form>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Out of Stock -->
+                            <div class="out-of-stock-badge">
+                                🚫 OUT OF STOCK
+                            </div>
+                            <div class="out-of-stock-message">
+                                <strong>Sorry!</strong> This product is currently unavailable. Please check back later or contact the seller.
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Section -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="reviews-section">
+                        <h2 class="reviews-title">Customer Reviews</h2>
+
+                        <!-- Add Review Form -->
+                        <div class="add-review-section">
+                            <h3 class="add-review-title">Write a Review</h3>
+                            <form asp-action="SubmitReview" method="post">
+                                <input type="hidden" name="type" value="Product" />
+                                <input type="hidden" name="serviceId" value="@Model.productId" />
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Rating</label>
+                                    <div class="star-rating-input">
+                                        <input type="radio" id="star5" name="rate" value="5" />
+                                        <label for="star5">★</label>
+                                        <input type="radio" id="star4" name="rate" value="4" />
+                                        <label for="star4">★</label>
+                                        <input type="radio" id="star3" name="rate" value="3" />
+                                        <label for="star3">★</label>
+                                        <input type="radio" id="star2" name="rate" value="2" />
+                                        <label for="star2">★</label>
+                                        <input type="radio" id="star1" name="rate" value="1" />
+                                        <label for="star1">★</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Comment</label>
+                                    <textarea class="form-control" name="comment" rows="4" placeholder="Share your experience with this product..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-submit-review">Send Review</button>
+                            </form>
+                        </div>
+
+                        <!-- Display Reviews -->
+                        @if (Model.Reviews != null && Model.Reviews.Any())
+                        {
+                            foreach (var review in Model.Reviews)
+                            {
+                                <div class="review-card">
+                                    <div class="review-header">
+                                        <div class="review-user-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                                <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="review-info">
+                                            <div class="review-rating">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= review.Rating)
+                                                    {
+                                                        <span>★</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="color:#ccc;">★</span>
+                                                    }
+                                                }
+                                            </div>
+                                            <p class="review-date">Posted on @review.CreatedAt.ToString("MMMM dd, yyyy")</p>
+                                        </div>
+                                    </div>
+                                    <p class="review-comment">@review.Comment</p>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="no-reviews">
+                                <p>No reviews yet. Be the first to review this product!</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function changeMainImage(thumbnail) {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = thumbnail.src;
+            document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
+            thumbnail.classList.add('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const quantityInput = document.getElementById('quantityInput');
+            const decreaseBtn = document.getElementById('decreaseBtn');
+            const increaseBtn = document.getElementById('increaseBtn');
+
+            const hiddenQuantityBuy = document.getElementById('hiddenQuantityBuy');
+            const hiddenPriceBuy = document.getElementById('hiddenPriceBuy');
+
+            const btnAddToCart = document.getElementById("btnAddToCart");
+
+            // Get unit price from Razor
+            const unitPrice = @(Model.price - (Model.price * Model.offer / 100.0));
+
+            if (quantityInput && decreaseBtn && increaseBtn) {
+                const maxQuantity = parseInt(quantityInput.max);
+                const minQuantity = parseInt(quantityInput.min);
+
+                // Update buttons state
+                function updateButtons() {
+                    const currentValue = parseInt(quantityInput.value);
+                    decreaseBtn.disabled = currentValue <= minQuantity;
+                    increaseBtn.disabled = currentValue >= maxQuantity;
+                }
+
+                // Update hidden fields for Buy Now
+                function updateBuyNowFields() {
+                    const count = parseInt(quantityInput.value) || 1;
+                    hiddenQuantityBuy.value = count;
+                    hiddenPriceBuy.value = (unitPrice * count).toFixed(2);
+                    updateButtons();
+                }
+
+                // Decrease quantity
+                decreaseBtn.addEventListener('click', () => {
+                    let currentValue = parseInt(quantityInput.value);
+                    if (currentValue > minQuantity) {
+                        quantityInput.value = currentValue - 1;
+                        updateBuyNowFields();
+                    }
+                });
+
+                // Increase quantity
+                increaseBtn.addEventListener('click', () => {
+                    let currentValue = parseInt(quantityInput.value);
+                    if (currentValue < maxQuantity) {
+                        quantityInput.value = currentValue + 1;
+                        updateBuyNowFields();
+                    }
+                });
+
+                // Manual input validation
+                quantityInput.addEventListener('change', () => {
+                    let value = parseInt(quantityInput.value);
+                    if (isNaN(value) || value < minQuantity) value = minQuantity;
+                    if (value > maxQuantity) value = maxQuantity;
+                    quantityInput.value = value;
+                    updateBuyNowFields();
+                });
+
+                // Initialize
+                updateBuyNowFields();
+            }
+
+            // Add to Cart functionality
+            if (btnAddToCart) {
+                btnAddToCart.addEventListener("click", async () => {
+                    const productId = btnAddToCart.dataset.productId;
+                    const quantity = parseInt(quantityInput.value) || 1;
+
+                    try {
+                        const response = await fetch("/Tourist/AddToCart", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                            body: `productId=${productId}&count=${quantity}`
+                        });
+
+                        if (response.ok) {
+                            btnAddToCart.innerHTML = `
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                                </svg> Added`;
+                            btnAddToCart.disabled = true;
+                            btnAddToCart.style.background = "linear-gradient(135deg, #198754 0%, #146c43 100%)";
+                        } else if (response.status === 401) {
+                            alert("Please log in first.");
+                        } else {
+                            alert("This product could not be added to the cart.");
+                        }
+                    } catch (error) {
+                        console.error("Error adding to cart:", error);
+                        alert("Something went wrong. Try again later.");
+                    }
+                });
+            }
+        });
+    </script>
+
+
+
+</body>

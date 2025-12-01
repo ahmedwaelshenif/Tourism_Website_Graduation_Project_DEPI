@@ -1,0 +1,79 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/Valley_Of_The_Kings_Thumbnail.jpg"
+        alt="Valley of the Kings"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Valley of the Kings</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About the Valley of the Kings</h2>
+        <p class="description-text">
+          <strong>Location:</strong> West Bank, Luxor
+        </p>
+        <p class="description-text">
+          The Valley of the Kings is an ancient royal burial ground carved deep
+          into desert mountains. More than 60 elaborately decorated tombs lie
+          beneath the sand, belonging to pharaohs like Ramses II, Seti I, and
+          Tutankhamun.
+        </p>
+        <p class="description-text">
+          Each tomb is adorned with colorful scenes from the Book of the Dead,
+          guiding the king into the afterlife. The atmosphere is quiet,
+          mysterious, and deeply spiritual.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=25.7402,32.6014&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/ValleyOfTheKingsPic1.jpg"
+            alt="Valley of the Kings Gallery 1"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/ValleyOfTheKingsPic2.webp"
+            alt="Valley of the Kings Gallery 2"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/ValleyOfTheKingsPic3.jpg"
+            alt="Valley of the Kings Gallery 3"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

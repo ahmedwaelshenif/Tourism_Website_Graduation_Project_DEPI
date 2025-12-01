@@ -1,0 +1,451 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body>
+    <main class="destinations-container">
+      <section class="hero-section">
+        <h1 class="main-title">Discover Egypt</h1>
+        <p class="subtitle">Explore Ancient Wonders and Timeless Beauty</p>
+      </section>
+
+      <section class="featured-section">
+        <h2 class="featured-title">Featured Destination of the Day</h2>
+        <div id="featuredDestination" class="featured-card"></div>
+      </section>
+
+      <section class="destinations-section">
+        <h2 class="destinations-main-title">Destinations</h2>
+        <nav class="category-nav" aria-label="Jump to category">
+                <a class="category-nav-link" href="javascript:void(0)" onclick="document.getElementById('cultural').scrollIntoView({ behavior: 'smooth' });">
+                    Cultural & Historical Tourism
+                </a>
+                <a class="category-nav-link" href="javascript:void(0)" onclick="document.getElementById('wellness').scrollIntoView({ behavior: 'smooth' });">
+                    Therapeutic & Wellness Tourism
+                </a>
+                <a class="category-nav-link" href="javascript:void(0)" onclick="document.getElementById('water').scrollIntoView({ behavior: 'smooth' });">
+                    Water Sports & Beach Tourism
+                </a>
+                <a class="category-nav-link" href="javascript:void(0)" onclick="document.getElementById('desert').scrollIntoView({ behavior: 'smooth' });">
+                    Desert & Adventure Tourism
+                </a>
+                <a class="category-nav-link" href="javascript:void(0)" onclick="document.getElementById('urban').scrollIntoView({ behavior: 'smooth' });">
+                    Urban Tourism
+                </a>
+                <a class="category-nav-link" href="javascript:void(0)" onclick="document.getElementById('eco').scrollIntoView({ behavior: 'smooth' });">
+                    Eco & Oasis Tourism
+                </a>
+
+        </nav>
+      </section>
+
+      <section id="cultural" class="category-section">
+        <div class="category-header">
+          <h2 class="category-title">Cultural & Historical Tourism</h2>
+          <p class="category-description">
+            Egypt is the world's largest open-air museum. Cultural tourism here
+            includes pharaonic monuments, medieval Islamic architecture, Coptic
+            heritage, museums, fortresses, and archaeological sites. These
+            destinations give visitors a deep look into the history of ancient
+            civilizations, kings, queens, warriors, and religious leaders whose
+            stories shaped human history.
+          </p>
+        </div>
+
+        <div class="destinations-grid">
+          <!-- Grand Egyptian Museum -->
+          <div
+            class="destination-card"
+            onclick="navigateToDestination('/destinations/gem')"
+          >
+            <img
+              src="Photos/grand_egyptian_museum_Thumbnail.jpg"
+              alt="Grand Egyptian Museum"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Grand Egyptian Museum</h2>
+          </div>
+
+          <!-- Pyramids of Giza -->
+          <div
+            class="destination-card"
+            onclick="navigateToDestination('/destinations/pyramids')"
+          >
+            <img
+              src="Photos/Pyramids_of_the_Giza_Thumbnail.jpg"
+              alt="Pyramids of Giza"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Pyramids of Giza</h2>
+          </div>
+
+          <!-- The Egyptian Museum -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/EgyptianMuseum')">
+            <img
+              src="Photos/Egyptian-Museum_Thumbnail.jpg"
+              alt="The Egyptian Museum"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">The Egyptian Museum</h2>
+          </div>
+
+          <!-- Khan El Khalili -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/KhanElKhalili')">
+            <img
+              src="Photos/Khan_Khalili_Thumbnail.jpg"
+              alt="Khan El Khalili"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Khan El Khalili</h2>
+          </div>
+
+          <!-- Citadel of Saladin -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/CitadelOfSaladin')">
+            <img
+              src="Photos/Citadel_Of_Saladin_Thumbnail.jpg"
+              alt="Citadel of Saladin"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Citadel of Saladin</h2>
+          </div>
+
+          <!-- Luxor Temple -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/LuxorTemple')">
+            <img
+              src="Photos/Luxor_Temple_Thumbnail.webp"
+              alt="Luxor Temple"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Luxor Temple</h2>
+          </div>
+
+          <!-- Karnak Temple -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/KarnakTemple')">
+            <img
+              src="Photos/Karnak_Temple_Thumbnail.jpg"
+              alt="Karnak Temple"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Karnak Temple</h2>
+          </div>
+
+          <!-- Valley of the Kings -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/ValleyoftheKings')">
+            <img
+              src="Photos/Valley_Of_The_Kings_Thumbnail.jpg"
+              alt="Valley of the Kings"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Valley of the Kings</h2>
+          </div>
+
+          <!-- Abu Simbel Temples -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/AbuSimbelTemples')">
+            <img
+              src="Photos/Abu_Simbel_Temple_Thumbnail.jpg"
+              alt="Abu Simbel Temples"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Abu Simbel Temples</h2>
+          </div>
+        </div>
+      </section>
+
+      <section id="wellness" class="category-section wellness">
+        <div class="category-header">
+          <h2 class="category-title">Remedy & Wellness Tourism</h2>
+          <p class="category-description">
+            Centered in Egypt's desert oases, salt lakes, and mineral-spring
+            areas, wellness tourism focuses on natural healing using hot
+            springs, black sands, and fresh desert air. These spots are ideal
+            for treating skin conditions, joint pain, and stress.
+          </p>
+        </div>
+
+        <div class="destinations-grid">
+          <!-- Siwa Oasis -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/SiwaOasis')">
+            <img
+              src="Photos/Siwa-Oasis-Thumbnail.jpg"
+              alt="Siwa Oasis"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Siwa Oasis</h2>
+          </div>
+
+          <!-- Safaga -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/Safaga')">
+            <img
+              src="Photos/Safaga_Thumbnail.webp"
+              alt="Safaga"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Safaga</h2>
+          </div>
+
+          <!-- Helwan Sulfur Springs -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/HelwanSulfurSprings')">
+            <img
+              src="Photos/HelwanSulfurSprings_Thumbnail.jpg"
+              alt="Helwan Sulfur Springs"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Helwan Sulfur Springs</h2>
+          </div>
+        </div>
+      </section>
+
+      <section id="water" class="category-section water-activities">
+        <div class="category-header">
+          <h2 class="category-title">Water Activities Tourism</h2>
+          <p class="category-description">
+            This category includes destinations along the Red Sea and
+            Mediterranean, famous for crystal-clear waters, coral reefs, marine
+            life, and perfect weather year-round. Ideal for diving, snorkeling,
+            kitesurfing, parasailing, boat trips, and water sports.
+          </p>
+        </div>
+
+        <div class="destinations-grid">
+          <!-- Hurghada -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/Hurghada')">
+            <img
+              src="Photos/Hurghada-Thumbnail.jpg"
+              alt="Hurghada"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Hurghada</h2>
+          </div>
+
+          <!-- Sharm El Sheikh -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/SharmElSheikh')">
+            <img
+              src="Photos/Sharm_El_Sheikh_Thumbnail.jpg"
+              alt="Sharm El Sheikh"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Sharm El Sheikh</h2>
+          </div>
+
+          <!-- El Gouna -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/ElGouna')">
+            <img
+              src="Photos/El-Gouna-Thumbnail.webp"
+              alt="El Gouna"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">El Gouna</h2>
+          </div>
+        </div>
+      </section>
+
+      <section id="desert" class="category-section desert-adventure">
+        <div class="category-header">
+          <h2 class="category-title">Desert, Nature & Adventure Tourism</h2>
+          <p class="category-description">
+            Explore Egypt's breathtaking natural wonders, from otherworldly
+            desert landscapes to sacred mountains and vibrant canyons. These
+            destinations offer unforgettable adventures including camping under
+            starlit skies, challenging hikes, and spiritual journeys through
+            some of the most spectacular terrain on Earth.
+          </p>
+        </div>
+
+        <div class="destinations-grid">
+          <!-- White Desert -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('destinations/WhiteDesert')">
+            <img
+              src="Photos/white desert Thumbnail.webp"
+              alt="White Desert"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">White Desert</h2>
+          </div>
+
+          <!-- Colored Canyon -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('destinations/ColoredCanyon')">
+            <img
+              src="Photos/ColoredCanyonThumbnail.webp"
+              alt="Colored Canyon"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Colored Canyon</h2>
+          </div>
+
+          <!-- Mount Sinai -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/MountSinai')">
+            <img
+              src="Photos/Mount_SinaiThumbnail.jpg"
+              alt="Mount Sinai"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Mount Sinai</h2>
+          </div>
+        </div>
+      </section>
+
+      <section id="urban" class="category-section urban-modern">
+        <div class="category-header">
+          <h2 class="category-title">Urban & Modern Tourism</h2>
+          <p class="category-description">
+            Experience Egypt's dynamic urban landscapes where historic elegance
+            meets cutting-edge modernity. From 19th-century architectural gems
+            to futuristic smart cities and vibrant coastal promenades, these
+            destinations showcase Egypt's evolution and contemporary lifestyle.
+          </p>
+        </div>
+
+        <div class="destinations-grid">
+          <!-- Cairo Downtown -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('destinations/CairoDowntown')">
+            <img
+              src="Photos/CairoDowntownThumbnail.jpg"
+              alt="Cairo Downtown"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Cairo Downtown</h2>
+          </div>
+
+          <!-- New Administrative Capital -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('destinations/NewAdministrativeCapital')">
+            <img
+              src="Photos/NewAdministrativeCapitalThumbnail.jpg"
+              alt="New Administrative Capital"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">New Administrative Capital</h2>
+          </div>
+
+          <!-- Alexandria Corniche -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('destinations/AlexandriaCorniche')">
+            <img
+              src="Photos/AlexandriaCornicheThumbnail.jpg"
+              alt="Alexandria Corniche"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Alexandria Corniche</h2>
+          </div>
+        </div>
+      </section>
+
+      <section id="eco" class="category-section eco-oasis">
+        <div class="category-header">
+          <h2 class="category-title">Eco & Oasis Tourism</h2>
+          <p class="category-description">
+            Discover Egypt's peaceful oases and eco-friendly villages nestled in
+            lush farmlands and serene desert landscapes. These sustainable
+            destinations offer pottery workshops, ancient temples, hot springs,
+            and palm groves, providing authentic cultural experiences in harmony
+            with nature.
+          </p>
+        </div>
+
+        <div class="destinations-grid">
+          <!-- Fayoum (Tunis Village) -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('destinations/TunisVillage')">
+            <img
+              src="Photos/TunisVillageThumbnail.jpg"
+              alt="Fayoum (Tunis Village)"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Fayoum (Tunis Village)</h2>
+          </div>
+
+          <!-- Kharga Oasis -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('destinations/KhargaOasis')">
+            <img
+              src="Photos/Kharga-OasisThumbnail.webp"
+              alt="Kharga Oasis"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Kharga Oasis</h2>
+          </div>
+
+          <!-- Dakhla Oasis -->
+          <div
+            class="destination-card"
+                     onclick="navigateToDestination('/destinations/DakhlaOasis')">
+            <img
+              src="Photos/Dakhla-OasisThumbnail.jpg"
+              alt="Dakhla Oasis"
+              class="card-image"
+            />
+            <div class="card-overlay"></div>
+            <h2 class="card-title">Dakhla Oasis</h2>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="~/js/script.js"></script>
+  </body>
+

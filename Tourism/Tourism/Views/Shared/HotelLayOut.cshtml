@@ -1,0 +1,159 @@
+﻿@using Tourism.ViewModel
+@using System.Security.Claims
+
+@* Make sure no Layout = "..." line is present here, as this is the layout file itself *@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hotel Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 1. Primary Colors for Theme */
+        :root {
+            --primary-color: #9370db; /* Purple */
+            --secondary-color: #f47b9c; /* Pink/Rose */
+        }
+
+        /* 2. Full screen gradient background */
+        body {
+            background: linear-gradient(135deg, #f5a9f3, #e5e9ec, #9370db);
+            min-height: 100vh;
+            background-color: #f8f9fa; /* fallback color */
+            /* THIS IS KEY: Creates space for the fixed navbar */
+            padding-top: 65px;
+        }
+
+        /* 3. Navbar Styling */
+        .navbar {
+            background-color: white !important;
+            border-bottom: 3px solid var(--secondary-color);
+            position: fixed; /* FIXES THE NAVBAR TO THE TOP */
+            top: 0; /* Aligns it to the top edge */
+            width: 100%;
+            z-index: 1030;
+        }
+
+        /* 4. Custom Button Styles */
+        .btn-logout-gradient {
+            background: linear-gradient(90deg, #d86582, #f47b9c);
+            color: white;
+            font-weight: 500;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+            .btn-logout-gradient:hover {
+                background: linear-gradient(90deg, #f47b9c, #d86582);
+                color: white;
+            }
+
+        /* 5. Navigation Links */
+        .navbar-nav .nav-link {
+            color: #495057;
+            font-weight: 500;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            transition: color 0.3s;
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: var(--secondary-color);
+            }
+
+            /* 6. Active Link Styling */
+            .navbar-nav .nav-link.active {
+                color: var(--primary-color);
+                font-weight: 700;
+                border-bottom: 2px solid var(--primary-color);
+            }
+
+        /* 7. Dropdown Styling */
+        .dropdown-menu {
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 3px 6px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            font-size: 0.6rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="@Url.Action("HotelDashboard", "Hotel")" style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.5rem; color: #d86582; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);">
+                @(ViewBag.HotelName ?? "Your Hotel") Hotel
+            </a>
+
+            <a asp-action="Logout" asp-controller="Hotel" class="btn btn-logout-gradient order-lg-last ms-3">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                    @* Dashboard Link *@
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "HotelDashboard" ? "active" : "")"
+                           asp-action="HotelDashboard" asp-controller="Hotel">
+                            <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                        </a>
+                    </li>
+
+                    @* Rooms Link *@
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "ShowRooms" ? "active" : "")"
+                           asp-action="ShowRooms" asp-controller="Hotel">
+                            <i class="bi bi-door-open-fill me-1"></i> Rooms
+                        </a>
+                    </li>
+
+                    @* Bookings Link *@
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "GuestBookings" ? "active" : "")"
+                           asp-action="GuestBookings" asp-controller="Hotel">
+                            <i class="bi bi-calendar-check-fill me-1"></i> Bookings
+                        </a>
+                    </li>
+
+              
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody() @* This is where the View content is rendered *@
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

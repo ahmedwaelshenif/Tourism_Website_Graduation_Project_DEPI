@@ -1,0 +1,423 @@
+﻿@using Tourism.ViewModel
+@model List<ProductViewModel>
+
+@{
+    ViewData["Title"] = "Products";
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    /* ... (Your existing CSS remains the same) ... */
+    :root {
+    --eggplant: #614051;
+    --eggplant-light: #8B5A7D;
+    --eggplant-dark: #3D2938;
+    --accent: #C77D9E;
+    --bg-light: #F8F5F7;
+    }
+
+    body {
+    background-color: var(--bg-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .page-header {
+    background: linear-gradient(135deg, var(--eggplant) 0%, var(--eggplant-light) 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .product-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(97, 64, 81, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e8e0e5;
+    }
+
+    .product-card:hover {
+    box-shadow: 0 6px 16px rgba(97, 64, 81, 0.2);
+    transform: translateY(-2px);
+    }
+
+    .product-content {
+    display: grid;
+    grid-template-columns: 250px 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    }
+
+    .image-carousel {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-light);
+    }
+
+    .carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    }
+
+    .carousel-image.active {
+    display: block;
+    }
+
+    .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(97, 64, 81, 0.8);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    }
+
+    .carousel-btn:hover {
+    background: var(--eggplant);
+    transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-btn.prev {
+    left: 10px;
+    }
+
+    .carousel-btn.next {
+    right: 10px;
+    }
+
+    .product-details {
+    flex: 1;
+    }
+
+    .product-name {
+    color: var(--eggplant-dark);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    }
+
+    .product-description {
+    color: #666;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    }
+
+    .product-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    }
+
+    .info-item {
+    display: flex;
+    flex-direction: column;
+    }
+
+    .info-label {
+    font-size: 0.85rem;
+    color: var(--eggplant-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+    font-size: 1.1rem;
+    color: var(--eggplant-dark);
+    font-weight: 500;
+    }
+
+    .price-tag {
+    font-size: 1.5rem;
+    color: var(--eggplant);
+    font-weight: 700;
+    }
+
+    .offer-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+    }
+
+    .status-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    }
+
+    .status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    }
+
+    .status-approved {
+    background-color: #d4edda;
+    color: #155724;
+    }
+
+    .status-rejected {
+    background-color: #f8d7da;
+    color: #721c24;
+    }
+
+    .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    }
+
+    .btn-custom {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    min-width: 120px;
+    }
+
+    .btn-edit {
+    background: linear-gradient(135deg, var(--eggplant) 0%, var(--eggplant-light) 100%);
+    color: white;
+    }
+
+    .btn-edit:hover {
+    background: linear-gradient(135deg, var(--eggplant-dark) 0%, var(--eggplant) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(97, 64, 81, 0.3);
+    color: white;
+    }
+
+    .btn-delete {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    }
+
+    .btn-delete:hover {
+    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+    color: white;
+    }
+
+    .no-products {
+    text-align: center;
+    padding: 3rem;
+    color: var(--eggplant-light);
+    font-size: 1.2rem;
+    }
+
+    @@media (max-width: 768px) {
+    .product-content {
+    grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+    flex-direction: row;
+    justify-content: center;
+    }
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="page-header">
+        <h1 class="mb-0">
+            <i class="fas fa-box-open"></i> Products Management
+        </h1>
+        <p class="mb-0 mt-2">Manage and view all your products</p>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="no-products">
+            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+            No products available
+        </div>
+    }
+    else
+    {
+        foreach (var product in Model)
+        {
+            if (product.deleted) continue;
+            <div class="product-card" id="product-@product.productId">
+                <div class="product-content">
+                    <div class="image-carousel" data-product-id="@product.productId">
+                        @if (product.UploadedImages != null && product.UploadedImages.Any())
+                        {
+                            var imagesList = product.UploadedImages.Take(4).ToList();
+                            @for (int i = 0; i < imagesList.Count; i++)
+                            {
+                                var img = imagesList[i];
+                                using var stream = new MemoryStream();
+                                img.CopyTo(stream);
+                                var base64 = Convert.ToBase64String(stream.ToArray());
+                                var imgSrc = $"data:image/jpeg;base64,{base64}";
+
+                                <img src="@imgSrc"
+                                     alt="@product.name"
+                                     class="carousel-image @(i == 0 ? "active" : "")" />
+                            }
+
+                            @if (imagesList.Count > 1)
+                            {
+                                <button class="carousel-btn prev" onclick="changeImage(this, -1)">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <button class="carousel-btn next" onclick="changeImage(this, 1)">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            }
+                        }
+                        else
+                        {
+                            <div class="carousel-image active no-image-placeholder">
+                                <i class="bi bi-image"></i>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="product-details">
+                        <h2 class="product-name">@product.name</h2>
+                        <p class="product-description">@product.description</p>
+
+                        <div class="product-info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Price</span>
+                                <span class="price-tag">
+                                    $@product.price.ToString("N2")
+                                    @if (product.offer > 0)
+                                    {
+                                        <span class="offer-badge">-@product.offer%</span>
+                                    }
+                                </span>
+                            </div>
+
+                            <div class="info-item">
+                                <span class="info-label">Category</span>
+                                <span class="info-value">@product.category</span>
+                            </div>
+
+                            <div class="info-item">
+                                <span class="info-label">In Stock</span>
+                                <span class="info-value">@product.count units</span>
+                            </div>
+
+                            <div class="info-item">
+                                <span class="info-label">Status</span>
+                                <span class="status-badge @($"status-{product.status.ToLower()}")">
+                                    @product.status
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a asp-controller="Merchant" asp-action="EditProduct" asp-route-id="@product.productId"
+                           class="btn-custom btn-edit">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form class="delete-product-form" data-product-id="@product.productId" data-delete-url="@Url.Action("DeleteProduct", "Merchant")" style="margin: 0;">
+                            <input type="hidden" name="id" value="@product.productId" />
+                            <button type="button" class="btn-custom btn-delete delete-button">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<script>
+    function changeImage(button, direction) {
+        const carousel = button.closest('.image-carousel');
+        const images = carousel.querySelectorAll('.carousel-image');
+        let currentIndex = Array.from(images).findIndex(img => img.classList.contains('active'));
+
+        images[currentIndex].classList.remove('active');
+
+        currentIndex += direction;
+        if (currentIndex >= images.length) currentIndex = 0;
+        if (currentIndex < 0) currentIndex = images.length - 1;
+
+        images[currentIndex].classList.add('active');
+    }
+
+    $(document).ready(function () {
+           $('.delete-button').on('click', function (e) {
+               e.preventDefault();
+               const $button = $(this);
+               const $form = $button.closest('.delete-product-form');
+
+               const productId = $form.data('product-id');
+               const deleteUrl = $form.data('delete-url');
+
+               // This now correctly targets the unique ID, e.g., #product-456
+               const $productCard = $('#product-' + productId);
+
+               // 1. Confirmation
+               if (confirm('Are you sure you want to delete product ID: ' + productId + '?')) {
+                   // 2. Perform AJAX call
+                   $.ajax({
+                       url: deleteUrl,
+                       type: 'POST',
+                       data: { id: productId },
+                       success: function (result) {
+                           // 3. Handle success (fade out and remove the card)
+                           if (result.status === 'success' || result.status === undefined) {
+                               $productCard.fadeOut(500, function () {
+                                   $productCard.remove();
+                                   // Optional: Check if all products are gone...
+                                   if ($('.product-card').length === 0) {
+                                       $('.container').append(
+                                           '<div class="no-products">' +
+                                           '<i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>' +
+                                           'No products available' +
+                                           '</div>'
+                                       );
+                                   }
+                               });
+                           } else {
+                                alert('Deletion failed: ' + (result.message || 'Unknown error.'));
+                           }
+                       },
+                       error: function (xhr, status, error) {
+                           // 4. Handle error
+                           alert('An error occurred during deletion. Status: ' + status + ', Error: ' + error);
+                       }
+                   });
+               }
+           });
+       });
+</script>

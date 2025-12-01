@@ -1,0 +1,313 @@
+﻿@using Tourism.ViewModel
+@model List<ProductOrdersViewModel>
+
+
+@{
+    Layout = "EcommerceLayout";
+}
+
+
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+
+        .header {
+            background: linear-gradient(135deg, #6b21a8 0%, #8b31c8 100%);
+            color: white;
+            padding: 2rem 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+            .header i {
+                font-size: 2rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+                font-weight: 600;
+            }
+
+        .table-container {
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        thead {
+            background-color: #f8f4fc;
+            border-bottom: 2px solid #6b21a8;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #6b21a8;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+
+            tbody tr:hover {
+                background-color: #faf8fc;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(107, 33, 168, 0.08);
+            }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-processing {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-delivered {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .cancel-btn {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            border: none;
+            padding: 0.65rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+        }
+
+            .cancel-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4);
+                background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+            }
+
+            .cancel-btn:active {
+                transform: translateY(0);
+            }
+
+            .cancel-btn:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+        .no-refund {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .icon-cell {
+            color: #6b21a8;
+            font-size: 1.1rem;
+        }
+
+        @@media (max-width: 1024px) {
+            .table-container
+
+        {
+            padding: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .header {
+            padding: 1.5rem;
+        }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6b7280;
+        }
+
+            .empty-state i {
+                font-size: 4rem;
+                color: #d1d5db;
+                margin-bottom: 1rem;
+            }
+    </style>
+</head>
+
+<div class="container">
+    <div class="header">
+        <i class="fas fa-shopping-bag"></i>
+        <h1>My Orders</h1>
+    </div>
+
+    <div class="table-container">
+        @if (Model != null && Model.Any())
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-hashtag icon-cell"></i> Order ID</th>
+                        <th><i class="fas fa-box icon-cell"></i> Product Name</th>
+                        <th><i class="fas fa-calendar icon-cell"></i> Order Date</th>
+                        <th><i class="fas fa-plane-arrival icon-cell"></i> Arrival Date</th>
+                        <th><i class="fas fa-sort-numeric-up icon-cell"></i> Quantity</th>
+                        <th><i class="fas fa-info-circle icon-cell"></i> Status</th>
+                        <th><i class="fas fa-map-marker-alt icon-cell"></i> Address</th>
+                        <th><i class="fas fa-undo icon-cell"></i> Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr id="order-row-@order.orderId">
+                            <td><strong>#@order.orderId</strong></td>
+                            <td>@order.productName</td>
+                            <td>@order.orderDate.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                @if (order.arrivalDate.HasValue)
+                                {
+                                    @order.arrivalDate.Value.ToString("MMM dd, yyyy")
+                                }
+                                else
+                                {
+                                    <span class="no-refund">Not set</span>
+                                }
+                            </td>
+                            <td>
+                                <span style="font-weight: 600; color: #6b21a8;">
+                                    <i class="fas fa-cubes" style="font-size: 0.9rem; margin-right: 0.3rem;"></i>
+                                    @order.amount
+                                </span>
+                            </td>
+                            <td id="status-cell-@order.orderId">
+                                <span class="status-badge status-@order.status.ToLower()">
+                                    <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
+                                    @order.status
+                                </span>
+                            </td>
+                            <td>@order.address</td>
+                            <td id="action-cell-@order.orderId">
+                                @if (order.refund && order.status!="Cancelled")
+                                {
+                                    <button type="button" class="cancel-btn" onclick="cancelOrder(@order.orderId)">
+                                        <i class="fas fa-times-circle"></i>
+                                        Cancel Order
+                                    </button>
+                                }
+                                else
+                                {
+                                    <span class="no-refund">No refund available</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <h2>No Orders Found</h2>
+                <p>You haven't placed any orders yet.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function cancelOrder(orderId) {
+        if (confirm('Are you sure you want to cancel order #' + orderId + '?')) {
+            // Disable the button to prevent double clicks
+            const button = event.target.closest('button');
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cancelling...';
+
+            // Get the anti-forgery token if you're using it
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+            fetch('/Tourist/CancelOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'orderId=' + orderId + (token ? '&__RequestVerificationToken=' + token : '')
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Update the status badge
+                    const statusCell = document.getElementById('status-cell-' + orderId);
+                    statusCell.innerHTML = `
+                        <span class="status-badge status-cancelled">
+                            <i class="fas fa-circle" style="font-size: 0.5rem;"></i>
+                            Cancelled
+                        </span>
+                    `;
+
+                    // Replace the cancel button with "No refund available"
+                    const actionCell = document.getElementById('action-cell-' + orderId);
+                    actionCell.innerHTML = '<span class="no-refund">No refund available</span>';
+
+                    alert('Order cancelled successfully!');
+                } else {
+                    // Re-enable the button if cancellation failed
+                    button.disabled = false;
+                    button.innerHTML = '<i class="fas fa-times-circle"></i> Cancel Order';
+                    alert(data.message || 'Failed to cancel order. Please try again.');
+                }
+            })
+        }
+    }
+</script>

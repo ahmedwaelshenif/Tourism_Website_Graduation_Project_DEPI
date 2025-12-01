@@ -1,0 +1,75 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/CairoDowntownThumbnail.jpg"
+        alt="Cairo Downtown"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Cairo Downtown</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About Cairo Downtown (Khedival Cairo)</h2>
+        <p class="description-text"><strong>Location:</strong> Cairo</p>
+        <p class="description-text">
+          Elegant 19th-century buildings, cultural cafés, bookshops, and
+          theatres create an authentic historic city vibe.
+        </p>
+        <p class="description-text">
+          This area represents Cairo's belle époque era, blending European
+          architectural influences with Egyptian character in a unique urban
+          landscape.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=30.0444,31.2357&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/CairoDowntownPic1.webp"
+            alt="Cairo Downtown Gallery 1"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/CairoDowntownPic2.jpg"
+            alt="Cairo Downtown Gallery 2"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/CairoDowntownPic3.jpg"
+            alt="Cairo Downtown Gallery 3"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

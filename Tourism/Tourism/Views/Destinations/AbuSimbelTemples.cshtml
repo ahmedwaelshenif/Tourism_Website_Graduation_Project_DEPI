@@ -1,0 +1,80 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/Abu_Simbel_Temple_Thumbnail.jpg"
+        alt="Abu Simbel Temples"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+      <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Abu Simbel Temples</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About Abu Simbel Temples</h2>
+        <p class="description-text">
+          <strong>Location:</strong> Abu Simbel, near Aswan
+        </p>
+        <p class="description-text">
+          Carved directly into a mountainside by Ramses II, the Abu Simbel
+          temples are masterpieces of ancient engineering. Four colossal statues
+          of the pharaoh sit at the entrance, watching over the desert. Inside,
+          the grand halls are decorated with detailed carvings celebrating
+          Ramses' victories.
+        </p>
+        <p class="description-text">
+          Twice a year, during the solar alignment, sunlight travels deep into
+          the temple to illuminate statues of the gods — a breathtaking event
+          that showcases ancient Egypt's astronomical precision.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=22.3372,31.6258&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/AbuSimbelTemplePic1.jpg"
+            alt="Abu Simbel Temples Gallery 1"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/AbuSimbelTemplePic2.webp"
+            alt="Abu Simbel Temples Gallery 2"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/AbuSimbelTemplePic3.jpg"
+            alt="Abu Simbel Temples Gallery 3"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/Safaga_Thumbnail.webp"
+        alt="Safaga"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Safaga</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About Safaga</h2>
+        <p class="description-text">
+          <strong>Location:</strong> Red Sea, 60 km south of Hurghada
+        </p>
+        <p class="description-text">
+          Situated 60 km south of Hurghada on the Red Sea, Safaga is globally
+          known for its mineral-rich black sands, believed to help treat
+          psoriasis and rheumatism.
+        </p>
+        <p class="description-text">
+          The area's low humidity and high salinity make it perfect for long
+          therapeutic stays and controlled natural healing programs.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=26.7400,33.9400&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="Photos/SafagaPic1.jpg" alt="Safaga Gallery 1" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/SafagaPic2.avif" alt="Safaga Gallery 2" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/SafagaPic3.jpg" alt="Safaga Gallery 3" />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

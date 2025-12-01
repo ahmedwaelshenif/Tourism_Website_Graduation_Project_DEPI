@@ -1,0 +1,255 @@
+﻿@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourism - Tourist Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin-left: 0 !important;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* MAIN CONTENT FIXED: no left margin */
+        .main-content {
+            margin-left: 0 !important;
+            padding: 2rem;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+            /* EXPANDED class to match layout behavior */
+            .main-content.expanded {
+                margin-left: 0 !important;
+            }
+
+        /* WELCOME SECTION */
+        .welcome-section {
+            background: linear-gradient(135deg, #6b21a8 0%, #8b5cf6 100%);
+            color: #ffffff;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(107, 33, 168, 0.2);
+        }
+
+            .welcome-section h1 {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .welcome-section p {
+                font-size: 1.2rem;
+                opacity: 0.95;
+            }
+
+        /* INFO SECTIONS */
+        .info-section {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            align-items: center;
+        }
+
+            .info-section:nth-child(even) {
+                flex-direction: row-reverse;
+            }
+
+        .info-content {
+            flex: 1;
+        }
+
+            .info-content h2 {
+                color: #6b21a8;
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .info-content p {
+                color: #4b5563;
+                font-size: 1.1rem;
+                line-height: 1.8;
+            }
+
+        .info-image {
+            flex: 1;
+        }
+
+            .info-image img {
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+        /* EXPLORE SECTION */
+        .explore-section {
+            margin: 4rem 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #6b21a8;
+            margin-bottom: 2rem;
+        }
+
+        .explore-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .explore-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+            .explore-card:hover {
+                transform: translateY(-10px);
+                border-color: #6b21a8;
+                box-shadow: 0 20px 40px rgba(107, 33, 168, 0.15);
+            }
+
+        .explore-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #6b21a8 0%, #8b5cf6 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .explore-card:hover .explore-icon {
+            transform: scale(1.1);
+        }
+
+        .explore-card h3 {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .explore-card p {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="main-content expanded">
+        <div class="welcome-section">
+            <h1>Welcome Back, John!</h1>
+            <p>Ready to discover new adventures...</p>
+        </div>
+
+        <!-- Info Section 1 -->
+        <div class="info-section">
+            <div class="info-content">
+                <h2>Discover Local Treasures</h2>
+                <p>Immerse yourself in authentic local experiences...</p>
+            </div>
+            <div class="info-image">
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop">
+            </div>
+        </div>
+
+        <!-- Info Section 2 -->
+        <div class="info-section">
+            <div class="info-content">
+                <h2>Savor Culinary Delights</h2>
+                <p>Experience the flavors of your destination...</p>
+            </div>
+            <div class="info-image">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop">
+            </div>
+        </div>
+
+        <!-- Info Section 3 -->
+        <div class="info-section">
+            <div class="info-content">
+                <h2>Rest in Comfort</h2>
+                <p>Find your perfect home away from home...</p>
+            </div>
+            <div class="info-image">
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop">
+            </div>
+        </div>
+
+        <!-- Info Section 4 -->
+        <div class="info-section">
+            <div class="info-content">
+                <h2>Navigate with Ease</h2>
+                <p>Never get lost in a new city again...</p>
+            </div>
+            <div class="info-image">
+                <img src="https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?w=600&h=400&fit=crop">
+            </div>
+        </div>
+
+        <!-- Explore Section -->
+        <section class="explore-section">
+            <h2 class="section-title">Let's Explore</h2>
+
+            <div class="explore-cards">
+                <a href="/tourist/EcommerceHomePage" class="explore-card">
+                    <div class="explore-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <h3>Ecommerce</h3>
+                    <p>Shop local products and souvenirs</p>
+                </a>
+
+                <a href="/tourist/showrestaurants" class="explore-card">
+                    <div class="explore-icon"><i class="fas fa-utensils"></i></div>
+                    <h3>Restaurants</h3>
+                    <p>Discover and book dining experiences</p>
+                </a>
+
+                <a href="/tourist/showallhotels" class="explore-card">
+                    <div class="explore-icon"><i class="fas fa-bed"></i></div>
+                    <h3>Hotels</h3>
+                    <p>Find and reserve accommodations</p>
+                </a>
+
+                <a href="/destinations/index" class="explore-card">
+                    <div class="explore-icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <h3>Explore Navigation</h3>
+                    <p>Navigate and discover destinations</p>
+                </a>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

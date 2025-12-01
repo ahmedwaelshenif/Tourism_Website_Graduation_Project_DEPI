@@ -1,0 +1,112 @@
+﻿@using Tourism.ViewModel;
+@model RestaurantSignUpViewModel
+
+@{
+    ViewData["Title"] = "Restaurant Sign Up";
+}
+
+<h2 class="mb-4 text-center">Restaurant Sign Up</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form asp-action="SignUp" asp-controller="Restaurant" method="post" enctype="multipart/form-data">
+    <div class="restaurant-info card p-4 shadow-sm mb-4">
+        <h4 class="mb-3 text-primary">Restaurant Information</h4>
+
+        <div class="form-group mb-3">
+            <label>Restaurant Name</label>
+            <input asp-for="name" class="form-control" placeholder="Enter your Restaurant name" />
+            <span asp-validation-for="name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="email"></label>
+            <input asp-for="email" class="form-control" placeholder="example@gmail.com" />
+            <span asp-validation-for="email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="passwordHash"></label>
+            <input asp-for="passwordHash" class="form-control" type="password" placeholder="Enter password" />
+            <span asp-validation-for="passwordHash" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="confirmPassword">Confirm Password</label>
+            <input id="confirmPassword" class="form-control" type="password" placeholder="Confirm password" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="hotline"></label>
+            <input asp-for="hotline" class="form-control" placeholder="12345" />
+            <span asp-validation-for="hotline" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="address"></label>
+            <input asp-for="address" class="form-control" placeholder="Enter your restaurant address" />
+            <span asp-validation-for="address" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Restaurant Description</label>
+            <input asp-for="description" class="form-control" placeholder="Enter your restaurant description" />
+            <span asp-validation-for="description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+        <label class="form-label">Upload Restaurant Logo</label>
+        <input asp-for="UploadedImage" type="file" class="form-control" accept="image/*" />
+        <span asp-validation-for="UploadedImage" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <div class="border rounded p-3 mb-3">
+        <h4 class="mb-3 text-primary">Credit Card Details</h4>
+
+        <div class="form-group mb-3">
+            <label asp-for="creditCard.CardHolder">Card Holder Name</label>
+            <input asp-for="creditCard.CardHolder" class="form-control" placeholder="Full name on card" />
+            <span asp-validation-for="creditCard.CardHolder" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="creditCard.CardNumber">Card Number</label>
+            <input asp-for="creditCard.CardNumber" class="form-control" maxlength="16" placeholder="1234 5678 9012 3456" />
+            <span asp-validation-for="creditCard.CardNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="creditCard.ExpiryDate">Expiry Date</label>
+            <input asp-for="creditCard.ExpiryDate" class="form-control" placeholder="MM/YY" />
+            <span asp-validation-for="creditCard.ExpiryDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="creditCard.CVV">CVV</label>
+            <input asp-for="creditCard.CVV" class="form-control" maxlength="3" placeholder="123" />
+            <span asp-validation-for="creditCard.CVV" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <button type="submit" formtarget="_self" class="btn btn-primary w-100">Sign Up</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const pass = document.getElementById("passwordHash").value;
+            const confirm = document.getElementById("confirmPassword").value;
+            if (pass !== confirm) {
+                e.preventDefault();
+                alert("Passwords do not match!");
+            }
+        });
+    </script>
+}

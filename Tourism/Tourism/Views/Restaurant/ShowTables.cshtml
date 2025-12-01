@@ -1,0 +1,162 @@
+﻿@using Tourism.ViewModel
+@model List<TableViewModel>
+
+<style>
+    /* Theme Variables */
+    :root {
+        --primary-color: #ff6b6b;
+        --primary-light: #ff8585;
+        --primary-bright: #ff9e9e;
+        --secondary-color: #4ecdc4;
+        --dark-bg: #f7f9fc;
+        --text-color: #2d3436;
+    }
+
+    body {
+        background-color: var(--dark-bg);
+    }
+
+    /* Page Title */
+    .dashboard-title {
+        font-weight: 700;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    /* Table Card - Mimics meal-card structure */
+    .table-card {
+        border-radius: 15px;
+        background: white;
+        padding: 15px;
+        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+        border: 2px solid transparent;
+        cursor: pointer;
+        margin-bottom: 12px;
+    }
+
+        .table-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.20);
+            border-color: var(--primary-color);
+        }
+
+    /* Titles & Text */
+    .table-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-bottom: 0.25rem;
+    }
+
+    .table-desc {
+        font-size: .95rem;
+        color: #555;
+        margin-bottom: 0.5rem;
+    }
+
+    .table-price {
+        font-size: 1rem;
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    /* Action Buttons */
+    .table-actions button,
+    .btn-back-dashboard {
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        background: white;
+        border-radius: 6px;
+        padding: 5px 10px;
+        transition: all .3s ease;
+        width: 100%;
+        margin-bottom: 5px;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+    }
+
+        .table-actions button:hover,
+        .btn-back-dashboard:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(255, 107, 107, 0.18);
+        }
+
+    /* Edit Button - Reusing the warning theme for contrast */
+    .table-actions .btn-warning {
+        border-color: #f0ad4e;
+        color: #f0ad4e;
+    }
+
+        .table-actions .btn-warning:hover {
+            background: #f0ad4e;
+            color: white;
+        }
+
+    /* Delete Button Special */
+    .table-actions .btn-danger {
+        border-color: #d9534f;
+        color: #d9534f;
+    }
+
+        .table-actions .btn-danger:hover {
+            background: #d9534f;
+            color: white;
+        }
+</style>
+
+<div class="container mt-4">
+
+    <h2 class="dashboard-title mb-4">Manage Restaurant Tables</h2>
+
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-12">
+                <div class="table-card d-flex align-items-center shadow-sm">
+
+                    <div class="table-info flex-grow-1 px-2">
+                        <h5 class="table-title">Table #@item.number</h5>
+
+                        <div class="table-desc">
+                            Capacity: @item.numberOfPersons Persons
+                        </div>
+
+                        <p class="table-price fw-bold mb-1">
+                            Booking Price: $@item.bookingPrice
+                        </p>
+                    </div>
+
+                    <div class="table-actions text-end" style="width: 120px;">
+
+                        <form asp-controller="Restaurant" asp-action="EditTable" method="get" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.id" />
+                            <button type="submit" class="btn btn-danger btn-sm mb-1 w-100">Edit</button>
+                        </form>
+
+                        <form asp-controller="Restaurant" asp-action="DeleteTable" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.id" />
+                            <button type="submit" class="btn btn-danger btn-sm w-100 mt-2">Delete</button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row mt-5 mb-5">
+        <div class="col-12 col-md-6 offset-md-3">
+            <a asp-controller="Restaurant" asp-action="RestaurantDashboard" class="btn-back-dashboard">
+                &larr; Back to Restaurant Dashboard
+            </a>
+        </div>
+    </div>
+
+</div>

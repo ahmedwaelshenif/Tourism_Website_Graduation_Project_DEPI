@@ -1,0 +1,71 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/HelwanSulfurSprings_Thumbnail.jpg"
+        alt="Helwan Sulfur Springs"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Helwan Sulfur Springs</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About Helwan Sulfur Springs</h2>
+        <p class="description-text">
+          <strong>Location:</strong> Helwan District, 30 km south of central
+          Cairo
+        </p>
+        <p class="description-text">
+          Found in the Helwan district, 30 km south of central Cairo, these
+          springs have been used since ancient times for their sulfuric mineral
+          properties. The waters help relieve skin diseases, bone pain, and
+          respiratory issues.
+        </p>
+        <p class="description-text">
+          Helwan remains one of Egypt's oldest medical tourism sites.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=29.8500,31.3342&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/HelwanSulfurSpringsPic1.jpg"
+            alt="Helwan Sulfur Springs Gallery 1"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/HelwanSulfurSpringsPic3.jpg"
+            alt="Helwan Sulfur Springs Gallery 2"
+          />
+        </div>
+      </div>
+    </section>
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,397 @@
+﻿@using Tourism.Models
+@model List<Room>
+@inject Tourism.IRepository.IHotelRepository _hotelRepository
+
+@{
+	ViewData["Title"] = "My Registered Rooms";
+	Layout = "~/Views/Shared/HotelLayOut.cshtml";
+	var pendingRequests = ViewBag.PendingServiceRequests as Dictionary<int, bool> ?? new Dictionary<int, bool>();
+}
+
+
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>@ViewData["Title"]</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+	<style>
+
+		body {
+			/* Color gradient matching the requested style */
+			background: linear-gradient(135deg, #f5a9f3, #e5e9ec, #9370db);
+			min-height: 100vh;
+			background-color: #f8f9fa; /* fallback color */
+		}
+		/* 1. تعريف الألوان الجديدة للثيم - موحدة مع الداشبورد */
+		:root {
+			--primary-color: #9370db; /* البنفسجي الداكن */
+			--secondary-color: #f47b9c; /* الوردي */
+			--bg-color: #f8f9fa; /* خلفية ناعمة جداً */
+			--card-bg: #ffffff;
+			/* 🚨 ألوان البادجات الجديدة المتناسقة */
+			--badge-approved: var(--primary-color);
+			--badge-available: #4CAF50; /* أخضر ناعم */
+			--badge-pending: #ffc107; /* أصفر تحذيري */
+			--badge-occupied: #dc3545; /* أحمر خطر (يستخدم الآن للرفض) */
+		}
+
+
+		/* 2. الخلفية العامة */
+		body {
+			/* ✅ التعديل المطلوب: تطبيق تدرج ألوان الداشبورد */
+			background: linear-gradient(135deg, #f5a9f3, #e5e9ec, #9370db);
+			min-height: 100vh; /* لضمان تغطية كامل ارتفاع الشاشة */
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			padding-top: 60px; /* لتعويض شريط التنقل الثابت */
+		}
+
+		/* 🚨 شريط التنقل (Navbar) - لجعله مطابقًا للداشبورد */
+		.navbar {
+			/* تطبيق تدرج ألوان الداشبورد */
+			background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* ظل أقوى */
+			position: fixed; /* للتأكد من ثباته في الأعلى */
+			top: 0;
+			width: 100%;
+			z-index: 1030;
+		}
+
+		/* 🚨 تعديل الألوان لضمان رؤية عناصر شريط التنقل على الخلفية الداكنة */
+		.navbar-brand, .nav-link {
+			color: white !important;
+		}
+
+		.navbar-toggler-icon {
+			/* تغيير لون أيقونة الهامبرغر إلى الأبيض */
+			background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+		}
+
+		/* 8. Logout Button Styling */
+		.btn-logout-gradient {
+			/* Use primary theme colors */
+			background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+			border: none;
+			color: white;
+			font-weight: 600;
+			border-radius: 20px;
+			padding: 8px 18px;
+			transition: opacity 0.3s;
+		}
+
+			.btn-logout-gradient:hover {
+				opacity: 0.9;
+				color: white;
+			}
+
+		/* 9. Notification Bell Badge Styling */
+		.notification-badge {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			padding: 4px 6px;
+			font-size: 10px;
+			background: var(--secondary-color);
+		}
+
+		h1 {
+			text-align: center;
+			margin-top: 30px;
+			font-weight: 700;
+			/* Apply color gradient to the title */
+			background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+
+		/* 4. تنسيق العنوان الرئيسي */
+		.container > h2 {
+			font-weight: 800;
+			margin-top: 25px;
+			background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			border-bottom: 3px solid var(--secondary-color);
+			padding-bottom: 15px;
+		}
+
+
+		/* 5. تنسيق بطاقة الغرفة */
+		.room-card {
+			transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+			border: none;
+			border-radius: 15px;
+			margin-bottom: 30px;
+			background-color: var(--card-bg);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+			.room-card:hover {
+				transform: translateY(-8px);
+				box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+			}
+
+		.room-image-container img {
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+		}
+
+
+		/* 6. تنسيق الفوتر (الأزرار) */
+		.card-footer-custom {
+			/* ✅ تدرج لوني موحد */
+			background: linear-gradient(to right, var(--primary-color), var(--secondary-color)) !important;
+			color: white;
+			border-top: none;
+			border-radius: 0 0 15px 15px;
+			padding: 15px 20px;
+		}
+
+
+		/* 7. تنسيق أزرار التعديل والحذف */
+		.btn-outline-light {
+			border-radius: 20px;
+			border: 2px solid rgba(255, 255, 255, 0.9);
+			color: white;
+			font-weight: 700;
+			padding: 6px 15px;
+		}
+
+			.btn-outline-light:hover {
+				background-color: rgba(255, 255, 255, 0.3);
+				color: white;
+				border-color: white;
+			}
+
+
+		/* 🚨 8. تنسيق البادجات الجديدة (Custom Badges) */
+		.status-badge {
+			font-size: 0.85rem; /* تم تصغيره قليلاً ليتناسب مع المساحة */
+			padding: 0.3em 0.8em;
+			font-weight: 700;
+			border-radius: 20px;
+			min-width: 100px;
+			text-align: center;
+		}
+
+		.badge-available {
+			background-color: var(--badge-available) !important;
+			color: white !important;
+		}
+
+		.badge-occupied {
+			background-color: var(--badge-occupied) !important;
+			color: white !important;
+		}
+
+		.badge-rejected { /* New class for denied status */
+			background-color: var(--badge-occupied) !important;
+			color: white !important;
+		}
+
+		.badge-approved {
+			background-color: var(--badge-approved) !important;
+			color: white !important;
+		}
+
+		.badge-pending {
+			background-color: var(--badge-pending) !important;
+			color: black !important;
+		}
+
+		.card-body h5 {
+			font-size: 1.4rem;
+			color: var(--primary-color);
+		}
+	</style>
+
+</head>
+
+<body>
+
+
+
+	<div class="container mt-3">
+		@* Adjusted margin-top for the fixed Navbar *@
+
+		<h2 class="mb-4">✨ My Registered Rooms (@Model.Count())</h2>
+		<hr />
+
+		@if (TempData["SuccessMessage"] != null)
+		{
+			<div class="alert alert-success">@TempData["SuccessMessage"]</div>
+		}
+
+		@if (Model == null || !Model.Any())
+		{
+			<div class="alert alert-info">
+				You currently have no rooms registered.
+				<a asp-action="AddRoom" class="alert-link" style="color: var(--primary-color); font-weight: 600;">Click here to add a new room.</a>
+			</div>
+		}
+		else
+		{
+			<div class="row">
+				@foreach (var room in Model)
+				{
+					// ** LOGIC for Verification Status Calculation (KEPT)**
+					bool isPending = pendingRequests.ContainsKey(room.id);
+					string approvalStatusText = room.accepted ? "Approved" :
+					isPending ? "Pending Review" : "Rejected";
+					string badgeClass = room.accepted ? "badge-approved" :
+					isPending ? "badge-pending" : "badge-rejected";
+					// ** END LOGIC **
+
+					<div class="col-12">
+
+						<div class="card room-card">
+
+							<div class="row g-0">
+
+								@* Images Column - col-md-8 *@
+								<div class="col-md-8 room-image-container">
+									@{
+										var imageIds = _hotelRepository.GetRoomImageIds(room.id);
+										var imageColSize = 3;
+										var imageHeight = 200; // Reduced height for better fit
+									}
+
+									@if (imageIds.Any())
+									{
+
+										<div class="row g-0 justify-content-start align-items-center" style="min-height: 250px;">
+
+											<div class="col-12">
+
+												<div class="row g-0 justify-content-start">
+													@foreach (var imageId in imageIds.Take(4))
+													{
+														<div class="col-@imageColSize p-1">
+
+															<img src="@Url.Action("GetImage", "Hotel", new { imageId = imageId })"
+																          alt="Room Image"
+																          class="img-fluid rounded"
+																          style="height: @(imageHeight)px; width: 100%;
+																                                                                                    object-fit: cover;"
+																          onerror="this.onerror=null;
+																                                                                                    this.src='https://via.placeholder.com/@(imageHeight)x@(imageHeight).png?text=Err';" />
+														</div>
+
+													}
+												</div>
+											</div>
+
+
+											@if (imageIds.Count > 4)
+											{
+
+												<div class="col-12 text-center text-muted" style="font-size: 0.8rem;
+																                                                                                 padding-top: 5px;">
+													+ @(imageIds.Count - 4) more pictures
+												</div>
+
+											}
+										</div>
+
+									}
+									else
+									{
+
+										<img src="https://via.placeholder.com/600x350.png?text=No+Image"
+											       alt="No Image"
+											       class="room-image rounded-start" style="min-height: 250px; width: 100%; object-fit: cover;" />
+
+									}
+								</div>
+								@* End Images Column *@
+
+								@* Details Column - col-md-4 *@
+								<div class="col-md-4">
+
+									<div class="card-body d-flex flex-column justify-content-center h-100">
+										<div class="d-flex justify-content-between align-items-start">
+
+											<div>
+
+												<h5 class="card-title fw-bold">Room No.: @room.number</h5>
+
+												<ul class="list-unstyled mb-0 mt-3">
+
+													<li class="mb-1">Capacity: <strong>@room.numberOfMembers Guests</strong></li>
+													<li>Price: <strong class="text-success fs-5">@room.cost.ToString("C") / Night</strong></li>
+
+												</ul>
+											</div>
+
+
+											<ul class="list-unstyled mb-0 text-end">
+												<li>
+
+													Status:
+													<span class="badge status-badge @(room.status ?
+																																					  				 "badge-available" : "badge-occupied")">
+
+												@(room.status ? "Available" : "Occupied/Inactive")
+
+													</span>
+												</li>
+												<li class="mt-2">
+
+													Verification:
+													@* Displaying the calculated status and class *@
+													<span class="badge status-badge @badgeClass">
+														@approvalStatusText
+													</span>
+												</li>
+											</ul>
+
+										</div>
+
+										@* Rejection Warning (KEPT) *@
+								@if (!room.accepted && !isPending)
+										{
+											<div class="alert alert-danger mt-3 mb-0 p-2 text-center" style="font-size: 0.9rem; font-weight: 600;">
+												❌ **Room Rejected.** Please <a href="@Url.Action("EditRoom", new { id = room.id })" class="alert-link fw-bold text-decoration-underline" style="color: inherit;">Edit and Resubmit</a>.
+											</div>
+										}
+										@* END Rejection Warning *@
+
+									</div>
+								</div>
+								@* End Details Column *@
+
+							</div>
+
+							<div class="card-footer card-footer-custom">
+								<div class="card-footer-actions">
+
+									<div class="text-white small fw-light">
+
+										Date Added: @room.dateAdded.ToShortDateString()
+									</div>
+
+									<div class="btn-group" role="group">
+
+										<a href="@Url.Action("EditRoom", new { id = room.id })" class="btn btn-outline-light">Edit</a>
+
+										<form asp-controller="Hotel" asp-action="DeleteRoom" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete room @room.number?');">
+
+											<input type="hidden" name="id" value="@room.id" />
+											<button type="submit" class="btn btn-outline-light">Delete</button>
+
+										</form>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				}
+			</div>
+		}
+	</div>
+</body>

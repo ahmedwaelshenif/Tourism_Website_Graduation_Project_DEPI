@@ -1,0 +1,379 @@
+﻿@using Tourism.ViewModel
+@model IEnumerable<RestaurantBookingDisplayViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booked Tables</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Your existing styles remain the same */
+        :root {
+            --primary-color: #ff6b6b;
+            --primary-light: #ff8585;
+            --primary-bright: #ff9e9e;
+            --secondary-color: #4ecdc4;
+            --dark-bg: #f7f9fc;
+            --text-color: #2d3436;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            font-family: 'Poppins', sans-serif;
+            padding-bottom: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+        }
+
+        .booking-card {
+            border-radius: 15px;
+            background: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 2px solid transparent;
+            margin-bottom: 20px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+            .booking-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 12px 28px rgba(255,107,107,0.18);
+                border-color: var(--primary-color);
+            }
+
+
+
+        /* Updated Back Button - Smaller size */
+        .back-btn {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+            padding: 6px 12px; /* Reduced from 10px 20px */
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: .3s ease;
+            display: inline-block;
+            font-size: 0.9rem; /* Added font size */
+        }
+
+            .back-btn:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+        .nav-action-btn {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+            padding: 5px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+            .nav-action-btn:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+
+        .nav-text-link {
+            border: none;
+            background-color: transparent;
+            box-shadow: none;
+            color: var(--primary-color);
+            padding: 5px 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-block;
+            margin-left: 5px;
+            transition: color 0.4s ease, transform 0.4s ease;
+        }
+
+            .nav-text-link:hover {
+                color: var(--primary-color);
+                text-decoration: none;
+                transform: translateY(-6px);
+            }
+
+        .table-badge {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .date-badge {
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .price-tag {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .table-responsive {
+            border-radius: 0 0 15px 15px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .table > thead {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+        }
+
+            .table > thead th {
+                border: none;
+                padding: 16px 15px;
+                font-weight: 600;
+                font-size: 1.1rem;
+                white-space: nowrap;
+            }
+
+        .card-header {
+            padding: 1.5rem;
+        }
+
+            .card-header h3 {
+                font-size: 1.75rem;
+                font-weight: 600;
+            }
+
+        .card-footer {
+            background-color: rgba(255, 107, 107, 0.05);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding: 1.5rem;
+        }
+
+        /* Larger table sizing */
+        .table {
+            font-size: 1.05rem;
+            margin-bottom: 0;
+            width: 100%;
+            min-width: 1200px; /* Force minimum width to show all columns */
+        }
+
+            .table th, .table td {
+                padding: 1.2rem 1rem;
+                white-space: nowrap;
+            }
+
+        /* Full width container */
+        .container-fluid-custom {
+            width: 100%;
+            padding-right: 2rem;
+            padding-left: 2rem;
+            margin-right: auto;
+            margin-left: auto;
+            flex: 1;
+        }
+
+        /* Larger empty state */
+        .empty-state {
+            padding: 3rem 2rem;
+        }
+
+            .empty-state i {
+                font-size: 4rem;
+                margin-bottom: 1.5rem;
+                color: #ccc;
+            }
+
+            .empty-state h4 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+        /* Responsive adjustments */
+        @@media (max-width: 1400px) {
+            .container-fluid-custom {
+                padding-right: 1.5rem;
+                padding-left: 1.5rem;
+            }
+        }
+
+        @@media (max-width: 1200px) {
+            .table {
+                min-width: 1100px;
+                font-size: 1rem;
+            }
+
+                .table th, .table td {
+                    padding: 1rem 0.8rem;
+                }
+        }
+
+        @@media (max-width: 768px) {
+            .container-fluid-custom {
+                padding-right: 1rem;
+                padding-left: 1rem;
+            }
+
+            .table {
+                min-width: 1000px;
+                font-size: 0.95rem;
+            }
+
+                .table th, .table td {
+                    padding: 0.8rem 0.6rem;
+                }
+
+            .card-header h3 {
+                font-size: 1.4rem;
+            }
+
+            .empty-state {
+                padding: 2rem 1rem;
+            }
+
+            .back-btn {
+                padding: 6px 12px; /* Keep consistent on mobile */
+                font-size: 0.9rem;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .navbar {
+                padding: 0.75rem 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+
+            .nav-text-link, .nav-action-btn {
+                font-size: 0.9rem;
+                padding: 4px 8px;
+            }
+
+            .card-header {
+                padding: 1rem;
+            }
+
+                .card-header h3 {
+                    font-size: 1.2rem;
+                }
+
+            .table {
+                min-width: 900px;
+                font-size: 0.9rem;
+            }
+
+                .table th, .table td {
+                    padding: 0.7rem 0.5rem;
+                }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <i class="fas fa-calendar-check me-2"></i>Booked Tables
+            </a>
+        </div>
+    </nav>
+
+    <div class="container-fluid-custom mt-4">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="booking-card shadow-sm">
+                    <div class="card-header text-center" style="background-color: var(--primary-color); color: white;">
+                        <h3 class="mb-0"><i class="fas fa-calendar-check me-2"></i>Current Table Reservations</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        @if (Model != null && Model.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Booking ID</th>
+                                            <th>Tourist ID</th>
+                                            <th>Tourist Name</th>
+                                            <th>Tourist Email</th>
+                                            <th>Table Number</th>
+                                            <th>Booking Date</th>
+                                            <th>Price Paid</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var booking in Model)
+                                        {
+                                            <tr style="cursor: pointer;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'">
+                                                <td class="fw-bold">#@booking.BookingId</td>
+                                                <td>@booking.TouristId</td>
+                                                <td>@booking.TouristName</td>
+                                                <td>@booking.TouristEmail</td>
+                                                <td><span class="table-badge">Table #@booking.TableNumber</span></td>
+                                                <td>
+                                                    <span class="fw-bold">@booking.BookingDate.ToString("MMM dd, yyyy")</span>
+                                                </td>
+                                                <td class="price-tag">@booking.BookingPrice.ToString("C")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Back button inside the card, below the table -->
+                            <div class="card-footer text-center">
+                                <a asp-action="RestaurantDashBoard" asp-controller="Restaurant" class="back-btn">
+                                    <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="empty-state text-center">
+                                <i class="fas fa-calendar-times"></i>
+                                <h4>No Bookings Yet</h4>
+                                <p>No table reservations found at the moment.</p>
+
+                                <!-- Back button inside the card for empty state -->
+                                <div class="mt-4">
+                                    <a asp-action="RestaurantDashBoard" asp-controller="Restaurant" class="back-btn">
+                                        Back to Dashboard
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <!-- Hero Header Section -->
+    <section class="destination-hero">
+      <img
+        src="Photos/Pyramids_of_the_Giza_Thumbnail.jpg"
+        alt="Pyramids of Giza"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Pyramids of Giza</h1>
+      </div>
+    </section>
+
+    <!-- Description Section -->
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About the Pyramids of Giza</h2>
+        <p class="description-text">
+          The Pyramids of Giza are Egypt's most iconic landmarks and the last
+          remaining Wonder of the Ancient World. The complex includes the Great
+          Pyramid of Khufu, the Pyramid of Khafre, and the Pyramid of Menkaure —
+          each built with extraordinary precision over 4,500 years ago. Visitors
+          can walk among massive stone blocks, explore smaller surrounding
+          tombs, and stand face-to-face with the Great Sphinx, whose mysterious
+          expression has inspired myths for centuries. Sunset and sunrise here
+          offer unforgettable photo opportunities.
+        </p>
+        <p class="description-text"><b>Location:</b> Giza, Greater Cairo</p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=29.9792,31.1342&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      >
+      </iframe>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img
+            src="Photos/GizaPyramidsPic1.jpg"
+            alt="Pyramids of Giza Gallery 1"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/GizaPyramidsPic2.jpg"
+            alt="Pyramids of Giza Gallery 2"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="Photos/GizaPyramidsPic3.jpeg"
+            alt="Pyramids of Giza Gallery 3"
+          />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>

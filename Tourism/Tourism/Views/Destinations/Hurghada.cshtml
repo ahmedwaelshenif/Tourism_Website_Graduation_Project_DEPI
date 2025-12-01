@@ -1,0 +1,71 @@
+@{
+    Layout = "TouristLayout";
+}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover Egypt - Top Destinations</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+</head>
+  <body class="destination-page">
+    <section class="destination-hero">
+      <img
+        src="Photos/Hurghada-Thumbnail.jpg"
+        alt="Hurghada"
+        class="hero-background"
+      />
+      <div class="hero-overlay"></div>
+        <a href="Destinations/Index" class="back-button">← Back to Destinations</a>
+      <div class="hero-content">
+        <h1 class="destination-title">Hurghada</h1>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <div class="description-content">
+        <h2>About Hurghada</h2>
+        <p class="description-text">
+          <strong>Location:</strong> Western shore of the Red Sea, Red Sea
+          Governorate
+        </p>
+        <p class="description-text">
+          Located on the western shore of the Red Sea in the Red Sea
+          Governorate, Hurghada is one of Egypt's leading diving and beach
+          destinations. It features long sandy coastlines, dozens of coral
+          reefs, world-class diving schools, and lively marinas filled with
+          restaurants and nightlife.
+        </p>
+        <p class="description-text">
+          The nearby Giftun Islands offer turquoise waters perfect for
+          snorkeling and underwater photography.
+        </p>
+      </div>
+      <iframe
+        class="map-location-btn"
+        src="https://maps.google.com/maps?q=27.2579,33.8116&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section class="gallery-section">
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="Photos/HurghadaPic1.jpg" alt="Hurghada Gallery 1" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/HurghadaPic2.jpg" alt="Hurghada Gallery 2" />
+        </div>
+        <div class="gallery-item">
+          <img src="Photos/HurghadaPic3.jpg" alt="Hurghada Gallery 3" />
+        </div>
+      </div>
+    </section>
+
+    <script src="~/js/script.js"></script>
+  </body>
+</html>
