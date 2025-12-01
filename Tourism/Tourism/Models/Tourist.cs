@@ -34,7 +34,7 @@ namespace Tourism.Models
         ErrorMessage = "Please Enter a Valid Number")]
         public string phoneNumber { get; set; }
         [Required]
-        [StringLength(40)]
+        // [StringLength(40)]
 
         public double balance { get; set; } = 0;
         public string address { get; set; }
