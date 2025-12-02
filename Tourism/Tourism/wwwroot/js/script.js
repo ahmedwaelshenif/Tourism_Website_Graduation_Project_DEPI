@@ -16,7 +16,7 @@ const destinations = [
     description:
       "The world's largest archaeological museum dedicated to a single civilization, housing over 100,000 artifacts including the complete Tutankhamun collection.",
     image: "Photos/grand_egyptian_museum_Thumbnail.jpg",
-    page: "gem.html",
+    page: "/destinations/gem",
   },
   {
     name: "Pyramids of Giza",
@@ -25,7 +25,7 @@ const destinations = [
     description:
       "The last remaining wonder of the ancient world, these magnificent pyramids have stood for over 4,500 years as a testament to ancient Egyptian engineering.",
     image: "Photos/Pyramids_of_the_Giza_Thumbnail.jpg",
-    page: "pyramids.html",
+    page: "/destinations/pyramids",
   },
   {
     name: "The Egyptian Museum",
@@ -34,7 +34,7 @@ const destinations = [
     description:
       "Home to the world's most extensive collection of pharaonic antiquities, featuring treasures spanning 5,000 years of Egyptian history.",
     image: "Photos/Egyptian-Museum_Thumbnail.jpg",
-    page: "egyptian-museum.html",
+    page: "/destinations/egyptian-museum",
   },
   {
     name: "Khan El Khalili",
@@ -43,7 +43,7 @@ const destinations = [
     description:
       "A historic bazaar dating back to the 14th century, offering an authentic taste of Cairo's vibrant market culture and traditional crafts.",
     image: "Photos/Khan_Khalili_Thumbnail.jpg",
-    page: "khan-el-khalili.html",
+    page: "/destinations/khan-el-khalili",
   },
   {
     name: "Citadel of Saladin",
@@ -52,7 +52,7 @@ const destinations = [
     description:
       "A medieval fortress built in the 12th century, featuring the stunning Mosque of Muhammad Ali and offering sweeping views of Cairo.",
     image: "Photos/Citadel_Of_Saladin_Thumbnail.jpg",
-    page: "citadel-of-saladin.html",
+    page: "/destinations/citadel-of-saladin",
   },
   {
     name: "Luxor Temple",
@@ -61,7 +61,7 @@ const destinations = [
     description:
       "An extraordinary monument built to celebrate kingship, featuring massive statues and intricate carvings that come alive under nighttime illumination.",
     image: "Photos/Luxor_Temple_Thumbnail.webp",
-    page: "luxor-temple.html",
+    page: "/destinations/luxor-temple",
   },
   {
     name: "Karnak Temple",
@@ -70,7 +70,7 @@ const destinations = [
     description:
       "One of the largest religious sites ever constructed, featuring the famous Hypostyle Hall with 134 colossal columns covered in hieroglyphs.",
     image: "Photos/Karnak_Temple_Thumbnail.jpg",
-    page: "karnak-temple.html",
+    page: "/destinations/karnak-temple",
   },
   {
     name: "Valley of the Kings",
@@ -79,7 +79,7 @@ const destinations = [
     description:
       "An ancient royal burial ground with over 60 elaborately decorated tombs, including the famous tomb of Tutankhamun.",
     image: "Photos/Valley_Of_The_Kings_Thumbnail.jpg",
-    page: "valley-of-the-kings.html",
+    page: "/destinations/valley-of-the-kings",
   },
   {
     name: "Abu Simbel Temples",
@@ -88,7 +88,7 @@ const destinations = [
     description:
       "Carved into a mountainside by Ramses II, these temples feature colossal statues and a twice-yearly solar alignment event.",
     image: "Photos/Abu_Simbel_Temple_Thumbnail.jpg",
-    page: "abu-simbel-temples.html",
+    page: "/destinations/abu-simbel-temples",
   },
   {
     name: "Siwa Oasis",
@@ -97,7 +97,7 @@ const destinations = [
     description:
       "Egypt's most peaceful wellness destination, offering natural hot springs, therapeutic sand baths, and magnesium-rich salt lakes.",
     image: "Photos/Siwa-Oasis-Thumbnail.jpg",
-    page: "siwa-oasis.html",
+    page: "/destinations/siwa-oasis",
   },
   {
     name: "Safaga",
@@ -106,7 +106,7 @@ const destinations = [
     description:
       "Globally known for its mineral-rich black sands, believed to help treat psoriasis and rheumatism.",
     image: "Photos/Safaga_Thumbnail.webp",
-    page: "safaga.html",
+    page: "/destinations/safaga",
   },
   {
     name: "Helwan Sulfur Springs",
@@ -115,7 +115,7 @@ const destinations = [
     description:
       "Ancient sulfuric mineral springs used since pharaonic times to relieve skin diseases, bone pain, and respiratory issues.",
     image: "Photos/HelwanSulfurSprings_Thumbnail.jpg",
-    page: "helwan-sulfur-springs.html",
+    page: "/destinations/helwan-sulfur-springs",
   },
   {
     name: "Hurghada",
@@ -124,7 +124,7 @@ const destinations = [
     description:
       "One of Egypt's leading diving destinations, featuring long sandy coastlines, coral reefs, and world-class diving schools.",
     image: "Photos/Hurghada-Thumbnail.jpg",
-    page: "hurghada.html",
+    page: "/destinations/hurghada",
   },
   {
     name: "Sharm El Sheikh",
@@ -133,7 +133,7 @@ const destinations = [
     description:
       "Home to Ras Mohammed National Park, one of the world's top diving locations with deep reefs and vibrant marine life.",
     image: "Photos/Sharm_El_Sheikh_Thumbnail.jpg",
-    page: "sharm-el-sheikh.html",
+    page: "/destinations/sharm-el-sheikh",
   },
   {
     name: "El Gouna",
@@ -142,7 +142,7 @@ const destinations = [
     description:
       "A modern luxury lagoon town perfect for kite surfing, paddleboarding, and safe swimming in calm waters.",
     image: "Photos/El-Gouna-Thumbnail.webp",
-    page: "el-gouna.html",
+    page: "/destinations/el-gouna",
   },
   {
     name: "White Desert",
@@ -151,7 +151,7 @@ const destinations = [
     description:
       "A surreal landscape filled with chalk rock formations, perfect for camping under some of the clearest night skies in Egypt.",
     image: "Photos/white desert Thumbnail.webp",
-    page: "white-desert.html",
+    page: "/destinations/white-desert",
   },
   {
     name: "Colored Canyon",
@@ -160,7 +160,7 @@ const destinations = [
     description:
       "A narrow passage featuring sandstone walls streaked with shades of red, orange, gold, and purple.",
     image: "Photos/ColoredCanyonThumbnail.webp",
-    page: "colored-canyon.html",
+    page: "/destinations/colored-canyon",
   },
   {
     name: "Mount Sinai",
@@ -169,7 +169,7 @@ const destinations = [
     description:
       "A sacred site where pilgrims climb before dawn to witness stunning sunrises and visit St. Catherine's Monastery.",
     image: "Photos/Mount_SinaiThumbnail.jpg",
-    page: "mount-sinai.html",
+    page: "/destinations/mount-sinai",
   },
   {
     name: "Cairo Downtown",
@@ -178,7 +178,7 @@ const destinations = [
     description:
       "Elegant 19th-century buildings, cultural cafés, bookshops, and theatres create an authentic historic city vibe.",
     image: "Photos/CairoDowntownThumbnail.jpg",
-    page: "cairo-downtown.html",
+    page: "/destinations/cairo-downtown",
   },
   {
     name: "New Administrative Capital",
@@ -187,7 +187,7 @@ const destinations = [
     description:
       "A modern smart city featuring the Iconic Tower, Africa's largest cathedral, and cutting-edge technology.",
     image: "Photos/NewAdministrativeCapitalThumbnail.jpg",
-    page: "new-administrative-capital.html",
+    page: "/destinations/new-administrative-capital",
   },
   {
     name: "Alexandria Corniche",
@@ -196,7 +196,7 @@ const destinations = [
     description:
       "A Mediterranean coastal walkway with beaches, seafood restaurants, and views of ancient and modern Alexandria.",
     image: "Photos/AlexandriaCornicheThumbnail.jpg",
-    page: "alexandria-corniche.html",
+    page: "/destinations/alexandria-corniche",
   },
   {
     name: "Fayoum (Tunis Village)",
@@ -205,7 +205,7 @@ const destinations = [
     description:
       "A quiet artistic village famous for pottery workshops, lush farmland, and desert-lake scenery.",
     image: "Photos/TunisVillageThumbnail.jpg",
-    page: "tunis-village.html",
+    page: "/destinations/tunis-village",
   },
   {
     name: "Kharga Oasis",
@@ -214,7 +214,7 @@ const destinations = [
     description:
       "Known for ancient temples, archaeological remains, and natural farms in Egypt's largest western oasis.",
     image: "Photos/Kharga-OasisThumbnail.webp",
-    page: "kharga-oasis.html",
+    page: "/destinations/kharga-oasis",
   },
   {
     name: "Dakhla Oasis",
@@ -223,7 +223,7 @@ const destinations = [
     description:
       "Home to medieval mud-brick villages, hot springs, and palm groves in a tranquil desert setting.",
     image: "Photos/Dakhla-OasisThumbnail.jpg",
-    page: "dakhla-oasis.html",
+    page: "/destinations/dakhla-oasis",
   },
 ];
 
